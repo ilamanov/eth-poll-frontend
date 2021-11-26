@@ -52,7 +52,7 @@ export default function Home() {
           target="_blank"
           rel="noreferrer"
         >
-          built by <span className={styles.twitterLink}>@{TWITTER_HANDLE}</span>
+          built by @<span className={styles.twitterLink}>{TWITTER_HANDLE}</span>
         </a>
       </footer>
     </div>
