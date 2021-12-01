@@ -57,7 +57,7 @@ export function IdentityView({ address }) {
   }
   return (
     <span className={styles.address}>
-      {address.substring(0, 4)}…{address.substring(address.length - 4)}
+      {address.substring(0, 5)}…{address.substring(address.length - 4)}
     </span>
   );
 }
