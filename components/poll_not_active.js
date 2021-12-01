@@ -112,7 +112,7 @@ function CreatePoll({ pollOwnerAddress, areAddressesTheSame, createPoll }) {
               />
             </div>
             {avatarError && (
-              <p class="help is-danger">Avatar URL can not be empty</p>
+              <p className="help is-danger">Avatar URL can not be empty</p>
             )}
           </div>
           <div style={{ marginTop: "1em" }} />
@@ -127,7 +127,9 @@ function CreatePoll({ pollOwnerAddress, areAddressesTheSame, createPoll }) {
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
-            {titleError && <p class="help is-danger">Title can not be empty</p>}
+            {titleError && (
+              <p className="help is-danger">Title can not be empty</p>
+            )}
           </div>
           <div style={{ marginTop: "1em" }} />
           <div className="field">
@@ -141,7 +143,9 @@ function CreatePoll({ pollOwnerAddress, areAddressesTheSame, createPoll }) {
                 onChange={(e) => setAbout(e.target.value)}
               />
             </div>
-            {aboutError && <p class="help is-danger">About can not be empty</p>}
+            {aboutError && (
+              <p className="help is-danger">About can not be empty</p>
+            )}
           </div>
           <div style={{ marginTop: "2.5em" }} />
           <div className={styles.submitButtonContainer}>
