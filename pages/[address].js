@@ -13,7 +13,7 @@ export default function Poll() {
   const router = useRouter();
   const pollOwnerAddress = router.query.address;
 
-  const [isPollActive, setIsPollActive] = useState(false);
+  const [isPollActive, setIsPollActive] = useState(undefined);
   const [avatarUrl, setAvatarUrl] = useState("");
   const [title, setTitle] = useState("");
   const [about, setAbout] = useState("");
@@ -64,6 +64,11 @@ export default function Poll() {
           </header>
 
           <main className={styles.main}></main>
+        </>
+      ) : isPollActive === undefined ? (
+        <>
+          <div>{/* to make flex-space-between happy */}</div>
+          <div className={styles.loading}>Loading...</div>
         </>
       ) : (
         <>

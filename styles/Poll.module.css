@@ -18,3 +18,8 @@
 .main {
   height: 100px;
 }
+
+.loading {
+  width: fit-content;
+  margin: 0 auto;
+}
