@@ -1,0 +1,37 @@
+@import "bulma/sass/utilities/_all.sass";
+@import "bulma/sass/elements/button.sass";
+@import "bulma/sass/components/modal.sass";
+@import "bulma/sass/form/shared.sass";
+@import "bulma/sass/form/input-textarea.sass";
+@import "bulma/sass/form/tools.sass";
+
+$milk: #fff1d7;
+$charcoal: #60584f;
+
+$primary: $charcoal;
+$scheme-main: $milk;
+$text: $charcoal;
+
+.button.is-primary {
+  color: $milk;
+  border-radius: 0.5em;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.button.is-dark {
+  color: $milk;
+  background-color: #363636;
+  border-color: transparent;
+}
+
+.button.is-orange {
+  color: white;
+  background: -webkit-linear-gradient(left, #e5771b, #753d16);
+  background-size: 200% 200%;
+  animation: gradient-animation 4s ease infinite;
+}
+
+.button.is-green {
+  color: #fff1d7;
+  background-color: #0fb00c;
+}

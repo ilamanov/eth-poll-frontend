@@ -1,0 +1,16 @@
+.text {
+  text-align: center;
+  line-height: 1.7em;
+}
+
+.createPollButtonContainer {
+  width: fit-content;
+  margin: 1em auto;
+}
+
+.modalContainer {
+  background-color: #fff1d7;
+  padding: 1em;
+  margin: 0 auto;
+  max-width: 500px;
+}
