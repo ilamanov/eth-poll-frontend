@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Identity, { IdentityView } from "../components/identity";
+import About from "../components/about";
 import styles from "../styles/components/poll_not_active.module.css";
 
 export default function PollNotActive({
@@ -147,7 +148,9 @@ function CreatePoll({ pollOwnerAddress, areAddressesTheSame, createPoll }) {
               <p className="help is-danger">About can not be empty</p>
             )}
           </div>
-          <div style={{ marginTop: "2.5em" }} />
+          <div style={{ marginTop: "1.5em" }} />
+          <About avatarUrl={avatarUrl} title={title} about={about} />
+          <div style={{ marginTop: "1.5em" }} />
           <div className={styles.submitButtonContainer}>
             <button
               type="submit"

@@ -10,6 +10,7 @@ export async function getPoll(pollOwnerAddress) {
   }
   if (!window.ethereum) {
     alert("You need MetaMask!");
+    // TODO remove this if we add Infura
     return;
   }
 
