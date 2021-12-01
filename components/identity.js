@@ -42,7 +42,7 @@ export default function Identity({ onIdentityChanged }) {
 
   return userAddress ? (
     <div>
-      Connected with <IdentityView address={userAddress} />
+      Connected with <IdentityView address={userAddress} mine={true} />
     </div>
   ) : (
     <button className="button is-orange" onClick={connectWallet}>
@@ -51,12 +51,12 @@ export default function Identity({ onIdentityChanged }) {
   );
 }
 
-export function IdentityView({ address }) {
+export function IdentityView({ address, mine }) {
   if (!address) {
     return <span className={styles.address}></span>;
   }
   return (
-    <span className={styles.address}>
+    <span className={styles.address + (mine ? ` ${styles.mine}` : "")}>
       {address.substring(0, 5)}…{address.substring(address.length - 4)}
     </span>
   );

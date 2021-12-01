@@ -1,6 +1,11 @@
 .address {
   padding: 5px;
   border-radius: 5px;
-  background-color: #e5771b;
+  border: 1px solid black;
   color: black;
+}
+
+.mine {
+  background-color: #e5771b;
+  border: none;
 }

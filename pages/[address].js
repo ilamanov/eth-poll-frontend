@@ -44,7 +44,12 @@ export default function Poll() {
             <div className={styles.navBar}>
               <Identity />
             </div>
-            <About avatarUrl={avatarUrl} title={title} about={about} />
+            <About
+              avatarUrl={avatarUrl}
+              title={title}
+              about={about}
+              address={pollOwnerAddress}
+            />
             <Propose />
           </header>
 

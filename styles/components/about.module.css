@@ -8,6 +8,11 @@
   border-radius: 50%;
 }
 
+.addressContainer {
+  width: fit-content;
+  margin: 1em auto;
+}
+
 .title {
   margin: 0;
   font-size: 25px;
