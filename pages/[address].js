@@ -18,6 +18,13 @@ export default function Poll() {
   const [title, setTitle] = useState("");
   const [about, setAbout] = useState("");
 
+  const [userAddress, setUserAddress] = useState("");
+
+  const doesOwnPoll =
+    userAddress &&
+    pollOwnerAddress &&
+    areAddressesTheSame(userAddress, pollOwnerAddress);
+
   const checkIfPollIsActive = async () => {
     const poll = await getPoll(pollOwnerAddress);
     setAvatarUrl(poll.avatarUrl);
@@ -42,13 +49,16 @@ export default function Poll() {
         <>
           <header className={styles.header}>
             <div className={styles.navBar}>
-              <Identity />
+              <Identity
+                onIdentityChanged={(address) => setUserAddress(address)}
+              />
             </div>
             <About
               avatarUrl={avatarUrl}
               title={title}
               about={about}
               address={pollOwnerAddress}
+              isAddressMine={doesOwnPoll}
             />
             <Propose />
           </header>

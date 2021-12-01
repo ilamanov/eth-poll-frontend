@@ -14,7 +14,7 @@ export default function PollNotActive({
     <div>
       <div className={styles.text}>
         There is no poll at the provided address{" "}
-        <IdentityView address={pollOwnerAddress} mine={false} />
+        <IdentityView address={pollOwnerAddress} isAddressMine={false} />
       </div>
       <div className={styles.text}>
         If you own this address, you can create your poll.
@@ -154,6 +154,7 @@ function CreatePoll({ pollOwnerAddress, areAddressesTheSame, createPoll }) {
             title={title}
             about={about}
             address={pollOwnerAddress}
+            isAddressMine={doesOwnPoll}
           />
           <div style={{ marginTop: "1.5em" }} />
           <div className={styles.submitButtonContainer}>
