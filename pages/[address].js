@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import styles from "../styles/Poll.module.css";
-import { getPoll, createPoll, areAddressesTheSame } from "../utils/contract";
+import {
+  getPoll,
+  createPoll,
+  editPoll,
+  areAddressesTheSame,
+} from "../utils/contract";
 import Identity from "../components/identity";
 import About from "../components/about";
 import Propose from "../components/propose";
@@ -59,6 +64,14 @@ export default function Poll() {
               about={about}
               address={pollOwnerAddress}
               isAddressMine={doesOwnPoll}
+              editable={{
+                value: doesOwnPoll,
+                pollOwnerAddress: pollOwnerAddress,
+                onEdit: async (avatarUrl, title, about) => {
+                  await editPoll(avatarUrl, title, about);
+                  router.reload(window.location.pathname);
+                },
+              }}
             />
             <Propose />
           </header>
@@ -75,7 +88,6 @@ export default function Poll() {
           <div>{/* to make flex-space-between happy */}</div>
           <PollNotActive
             pollOwnerAddress={pollOwnerAddress}
-            areAddressesTheSame={areAddressesTheSame}
             createPoll={async (avatarUrl, title, about) => {
               await createPoll(avatarUrl, title, about);
               router.reload(window.location.pathname);
