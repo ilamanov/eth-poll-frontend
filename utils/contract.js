@@ -113,6 +113,61 @@ export async function getProposals(pollOwnerAddress) {
   return proposals;
 }
 
+export async function upvote(pollOwnerAddress, proposalIndex) {
+  if (!window.ethereum) {
+    alert("You need MetaMask!");
+    return;
+  }
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const ethPollContract = new ethers.Contract(
+    CONTRACT_ADDRESS,
+    CONTRACT_ABI,
+    signer
+  );
+
+  const upvoteTxn = await ethPollContract.upvote(
+    pollOwnerAddress,
+    proposalIndex
+  );
+  // console.log("Mining...", upvoteTxn.hash);
+  await upvoteTxn.wait();
+  // console.log("Mined -- ", upvoteTxn.hash);
+  return upvoteTxn.hash;
+}
+
+export async function downvote(pollOwnerAddress, proposalIndex) {
+  if (!window.ethereum) {
+    alert("You need MetaMask!");
+    return;
+  }
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const ethPollContract = new ethers.Contract(
+    CONTRACT_ADDRESS,
+    CONTRACT_ABI,
+    signer
+  );
+
+  const downvoteTxn = await ethPollContract.downvote(
+    pollOwnerAddress,
+    proposalIndex
+  );
+  // console.log("Mining...", downvoteTxn.hash);
+  await downvoteTxn.wait();
+  // console.log("Mined -- ", downvoteTxn.hash);
+  return downvoteTxn.hash;
+}
+
 export function areAddressesTheSame(addr1, addr2) {
   return ethers.utils.getAddress(addr1) === ethers.utils.getAddress(addr2);
+}
+
+export function doesIncludeAddress(array, addr) {
+  for (let addr2 of array) {
+    if (areAddressesTheSame(addr, addr2)) {
+      return true;
+    }
+  }
+  return false;
 }

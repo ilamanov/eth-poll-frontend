@@ -9,6 +9,8 @@ import {
   areAddressesTheSame,
   submitProposal,
   getProposals,
+  upvote,
+  downvote,
 } from "../utils/contract";
 import Identity from "../components/identity";
 import About from "../components/about";
@@ -89,7 +91,18 @@ export default function Poll() {
           </header>
 
           <main className={styles.main}>
-            <ProposalList proposals={proposals} userAddress={userAddress} />
+            <ProposalList
+              proposals={proposals}
+              userAddress={userAddress}
+              upvote={async (proposalIndex) => {
+                await upvote(pollOwnerAddress, proposalIndex);
+                router.reload(window.location.pathname);
+              }}
+              downvote={async (proposalIndex) => {
+                await downvote(pollOwnerAddress, proposalIndex);
+                router.reload(window.location.pathname);
+              }}
+            />
           </main>
         </div>
       ) : isPollActive === undefined ? (
