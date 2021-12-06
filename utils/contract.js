@@ -88,6 +88,31 @@ export async function submitProposal(pollOwnerAddress, proposalTitle) {
   return proposalTxn.hash;
 }
 
+export async function getProposals(pollOwnerAddress) {
+  if (!pollOwnerAddress) {
+    return [];
+  }
+  if (!window.ethereum) {
+    alert("You need MetaMask!");
+    // TODO remove this if we add Infura
+    return;
+  }
+
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const ethPollContract = new ethers.Contract(
+    CONTRACT_ADDRESS,
+    CONTRACT_ABI,
+    provider
+  );
+
+  const count = await ethPollContract.getProposalCount(pollOwnerAddress);
+  const proposals = [];
+  for (let i = 0; i < count; i++) {
+    proposals.push(await ethPollContract.getProposal(pollOwnerAddress, i));
+  }
+  return proposals;
+}
+
 export function areAddressesTheSame(addr1, addr2) {
   return ethers.utils.getAddress(addr1) === ethers.utils.getAddress(addr2);
 }

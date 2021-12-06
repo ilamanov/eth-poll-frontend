@@ -1,6 +1,8 @@
 .container {
   height: 100%;
-  padding: 0 1rem;
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 0 0.8em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -17,6 +19,7 @@
 
 .main {
   height: 100px;
+  margin-top: 2em;
 }
 
 .loading {

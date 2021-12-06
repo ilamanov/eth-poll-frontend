@@ -8,12 +8,14 @@ import {
   editPoll,
   areAddressesTheSame,
   submitProposal,
+  getProposals,
 } from "../utils/contract";
 import Identity from "../components/identity";
 import About from "../components/about";
 import Propose from "../components/propose";
 import TwitterFooter from "../components/twitter_footer";
 import PollNotActive from "../components/poll_not_active";
+import ProposalList from "../components/proposal_list";
 
 export default function Poll() {
   const router = useRouter();
@@ -23,6 +25,8 @@ export default function Poll() {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [title, setTitle] = useState("");
   const [about, setAbout] = useState("");
+
+  const [proposals, setProposals] = useState([]);
 
   const [userAddress, setUserAddress] = useState("");
 
@@ -37,6 +41,8 @@ export default function Poll() {
     setTitle(poll.title);
     setAbout(poll.bio);
     setIsPollActive(poll.isActive);
+
+    setProposals(await getProposals(pollOwnerAddress));
   };
 
   useEffect(() => {
@@ -52,7 +58,7 @@ export default function Poll() {
       </Head>
 
       {isPollActive ? (
-        <>
+        <div>
           <header className={styles.header}>
             <div className={styles.navBar}>
               <Identity
@@ -82,8 +88,10 @@ export default function Poll() {
             />
           </header>
 
-          <main className={styles.main}></main>
-        </>
+          <main className={styles.main}>
+            <ProposalList proposals={proposals} userAddress={userAddress} />
+          </main>
+        </div>
       ) : isPollActive === undefined ? (
         <>
           <div>{/* to make flex-space-between happy */}</div>
