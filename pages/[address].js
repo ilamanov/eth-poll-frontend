@@ -7,6 +7,7 @@ import {
   createPoll,
   editPoll,
   areAddressesTheSame,
+  submitProposal,
 } from "../utils/contract";
 import Identity from "../components/identity";
 import About from "../components/about";
@@ -73,7 +74,12 @@ export default function Poll() {
                 },
               }}
             />
-            <Propose />
+            <Propose
+              submitProposal={async (proposalTitle) => {
+                await submitProposal(pollOwnerAddress, proposalTitle);
+                router.reload(window.location.pathname);
+              }}
+            />
           </header>
 
           <main className={styles.main}></main>

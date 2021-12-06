@@ -65,6 +65,29 @@ export async function editPoll(avatarUrl, title, about) {
   return pollTxn.hash;
 }
 
+export async function submitProposal(pollOwnerAddress, proposalTitle) {
+  if (!window.ethereum) {
+    alert("You need MetaMask!");
+    return;
+  }
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const ethPollContract = new ethers.Contract(
+    CONTRACT_ADDRESS,
+    CONTRACT_ABI,
+    signer
+  );
+
+  const proposalTxn = await ethPollContract.propose(
+    pollOwnerAddress,
+    proposalTitle
+  );
+  // console.log("Mining...", proposalTxn.hash);
+  await proposalTxn.wait();
+  // console.log("Mined -- ", proposalTxn.hash);
+  return proposalTxn.hash;
+}
+
 export function areAddressesTheSame(addr1, addr2) {
   return ethers.utils.getAddress(addr1) === ethers.utils.getAddress(addr2);
 }

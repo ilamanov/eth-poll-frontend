@@ -100,7 +100,9 @@ function ModalContent({
             <label className="label">Avatar URL</label>
             <div className="control">
               <input
-                className={"input" + (avatarError ? " is-danger" : "")}
+                className={
+                  "input " + styles.input + (avatarError ? " is-danger" : "")
+                }
                 type="text"
                 placeholder="https://my-avatar.com/png/jpg"
                 value={avatarUrl}
@@ -116,7 +118,9 @@ function ModalContent({
             <label className="label">Title</label>
             <div className="control">
               <input
-                className={"input" + (titleError ? " is-danger" : "")}
+                className={
+                  "input " + styles.input + (titleError ? " is-danger" : "")
+                }
                 type="text"
                 placeholder="👋 Hey, this is Nazar"
                 value={title}
@@ -132,7 +136,9 @@ function ModalContent({
             <label className="label">About</label>
             <div className="control">
               <input
-                className={"input" + (aboutError ? " is-danger" : "")}
+                className={
+                  "input " + styles.input + (aboutError ? " is-danger" : "")
+                }
                 type="text"
                 placeholder="Let me know what web3 concept you would like me to explain!"
                 value={about}

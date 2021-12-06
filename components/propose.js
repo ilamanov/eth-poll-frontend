@@ -1,37 +1,39 @@
-import { ethers } from "ethers";
+import React, { useState } from "react";
 import styles from "../styles/components/propose.module.css";
-import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../utils/contract";
 
-export default function Propose() {
+export default function Propose({ submitProposal }) {
+  const [error, setError] = useState(false);
+  const [proposal, setProposal] = useState("");
+  const [isMining, setMining] = useState(false);
+
   const propose = async () => {
-    if (!window.ethereum) {
-      alert("You need to connect a wallet!");
+    if (proposal === "") {
+      setError(true);
+      return;
     }
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const signer = provider.getSigner();
-    const wavePortalContract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      CONTRACT_ABI,
-      signer
-    );
 
-    let count = await wavePortalContract.getTotalWaves();
-    console.log("Retrieved total wave count...", count.toNumber());
-
-    const waveTxn = await wavePortalContract.wave();
-    console.log("Mining...", waveTxn.hash);
-
-    await waveTxn.wait();
-    console.log("Mined -- ", waveTxn.hash);
-
-    count = await wavePortalContract.getTotalWaves();
-    console.log("Retrieved total wave count...", count.toNumber());
+    setMining(true);
+    submitProposal(proposal);
   };
 
   return (
     <div className={styles.container}>
-      <input type="text" className={styles.input} />
-      <button className={styles.button} onClick={propose}>
+      <div className={"field " + styles.inputContainer}>
+        <div className="control">
+          <input
+            className={"input " + styles.input + (error ? " is-danger" : "")}
+            type="text"
+            placeholder="Propose something!"
+            value={proposal}
+            onChange={(e) => setProposal(e.target.value)}
+          />
+        </div>
+        {error && <p className="help is-danger">Proposal can not be empty</p>}
+      </div>
+      <button
+        className={"button is-green" + (isMining ? " is-loading" : "")}
+        onClick={propose}
+      >
         Propose
       </button>
     </div>
