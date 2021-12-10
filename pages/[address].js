@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React, { useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Poll.module.css";
 import {
-  getPoll,
+  getPollData,
   createPoll,
   editPoll,
-  areAddressesTheSame,
   submitProposal,
-  getProposals,
   upvote,
   downvote,
+  areAddressesTheSame,
 } from "../utils/contract";
 import Identity from "../components/identity";
 import About from "../components/about";
@@ -19,35 +17,13 @@ import TwitterFooter from "../components/twitter_footer";
 import PollNotActive from "../components/poll_not_active";
 import ProposalList from "../components/proposal_list";
 
-export default function Poll() {
-  const router = useRouter();
-  const pollOwnerAddress = router.query.address;
-
+export default function Poll({ pollData }) {
   const [userAddress, setUserAddress] = useState("");
-
-  const [isPollActive, setIsPollActive] = useState(undefined);
-  const [avatarUrl, setAvatarUrl] = useState("");
-  const [title, setTitle] = useState("");
-  const [about, setAbout] = useState("");
-  const [proposals, setProposals] = useState([]);
 
   const doesOwnPoll =
     userAddress &&
-    pollOwnerAddress &&
-    areAddressesTheSame(userAddress, pollOwnerAddress);
-
-  const checkIfPollIsActive = async () => {
-    const poll = await getPoll(pollOwnerAddress);
-    setAvatarUrl(poll.avatarUrl);
-    setTitle(poll.title);
-    setAbout(poll.bio);
-    setIsPollActive(poll.isActive);
-    setProposals(await getProposals(pollOwnerAddress));
-  };
-
-  useEffect(() => {
-    checkIfPollIsActive();
-  }, [pollOwnerAddress]);
+    pollData.ownerAddress &&
+    areAddressesTheSame(userAddress, pollData.ownerAddress);
 
   return (
     <div className={styles.container}>
@@ -57,7 +33,7 @@ export default function Poll() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {isPollActive ? (
+      {pollData.isActive ? (
         <div>
           <header className={styles.header}>
             <div className={styles.navBar}>
@@ -66,14 +42,14 @@ export default function Poll() {
               />
             </div>
             <About
-              avatarUrl={avatarUrl}
-              title={title}
-              about={about}
-              address={pollOwnerAddress}
+              avatarUrl={pollData.avatarUrl}
+              title={pollData.title}
+              about={pollData.about}
+              address={pollData.ownerAddress}
               isAddressMine={doesOwnPoll}
               editable={{
                 value: doesOwnPoll,
-                pollOwnerAddress: pollOwnerAddress,
+                pollOwnerAddress: pollData.ownerAddress,
                 onEdit: async (avatarUrl, title, about) => {
                   await editPoll(avatarUrl, title, about);
                   router.reload(window.location.pathname);
@@ -82,7 +58,7 @@ export default function Poll() {
             />
             <Propose
               submitProposal={async (proposalTitle) => {
-                await submitProposal(pollOwnerAddress, proposalTitle);
+                await submitProposal(pollData.ownerAddress, proposalTitle);
                 router.reload(window.location.pathname);
               }}
             />
@@ -90,20 +66,20 @@ export default function Poll() {
 
           <main className={styles.main}>
             <ProposalList
-              proposals={proposals}
+              proposals={pollData.proposals}
               userAddress={userAddress}
               upvote={async (proposalIndex) => {
-                await upvote(pollOwnerAddress, proposalIndex);
+                await upvote(pollData.ownerAddress, proposalIndex);
                 router.reload(window.location.pathname);
               }}
               downvote={async (proposalIndex) => {
-                await downvote(pollOwnerAddress, proposalIndex);
+                await downvote(pollData.ownerAddress, proposalIndex);
                 router.reload(window.location.pathname);
               }}
             />
           </main>
         </div>
-      ) : isPollActive === undefined ? (
+      ) : pollData.isActive === undefined ? (
         <>
           <div>{/* to make flex-space-between happy */}</div>
           <div className={styles.loading}>Loading...</div>
@@ -112,7 +88,7 @@ export default function Poll() {
         <>
           <div>{/* to make flex-space-between happy */}</div>
           <PollNotActive
-            pollOwnerAddress={pollOwnerAddress}
+            pollOwnerAddress={pollData.ownerAddress}
             createPoll={async (avatarUrl, title, about) => {
               await createPoll(avatarUrl, title, about);
               router.reload(window.location.pathname);
@@ -124,4 +100,8 @@ export default function Poll() {
       <TwitterFooter />
     </div>
   );
+}
+
+export async function getServerSideProps({ params }) {
+  return { props: { pollData: await getPollData(params.address) } };
 }

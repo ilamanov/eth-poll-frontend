@@ -1,28 +1,55 @@
 import { ethers } from "ethers";
 import contractABI from "../utils/eth_poll_contract_abi.json";
 
-export const CONTRACT_ADDRESS = "0x92442E534741B46c272dB358aBa7406f0d3be3Eb";
-export const CONTRACT_ABI = contractABI.abi;
+const CONTRACT_ADDRESS = "0x92442E534741B46c272dB358aBa7406f0d3be3Eb";
+const CONTRACT_ABI = contractABI.abi;
+const NETWORK = "goerli";
 
-export async function getPoll(pollOwnerAddress) {
+function getContract(transactionType) {
+  let provider;
+  if (transactionType === "public") {
+    provider = ethers.getDefaultProvider(NETWORK, {
+      infura: process.env.INFURA_PROJECT_ID,
+    });
+  } else if (transactionType === "private") {
+    provider = "TODO";
+  } else {
+    throw "Unknown transaction type " + transactionType;
+  }
+  return new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+}
+
+export async function getPollData(pollOwnerAddress) {
   if (!pollOwnerAddress) {
     return {};
   }
-  if (!window.ethereum) {
-    alert("You need MetaMask!");
-    // TODO remove this if we add Infura
-    return;
-  }
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const ethPollContract = new ethers.Contract(
-    CONTRACT_ADDRESS,
-    CONTRACT_ABI,
-    provider
-  );
+  const ethPollContract = getContract("public");
 
   const poll = await ethPollContract.polls(pollOwnerAddress);
-  return poll;
+  const pollExtended = {
+    isActive: poll.isActive,
+    avatarUrl: poll.avatarUrl,
+    title: poll.title,
+    about: poll.bio,
+    createdTimestamp: poll.createdTimestamp.toString(),
+  };
+  pollExtended.ownerAddress = pollOwnerAddress;
+
+  const count = await ethPollContract.getProposalCount(pollOwnerAddress);
+  const proposals = [];
+  for (let i = 0; i < count; i++) {
+    const proposal = await ethPollContract.getProposal(pollOwnerAddress, i);
+    proposals.push({
+      title: proposal.title,
+      createdBy: proposal.createdBy,
+      upvotes: proposal.upvotes,
+      downvotes: proposal.downvotes,
+    });
+  }
+  pollExtended.proposals = proposals;
+
+  return pollExtended;
 }
 
 export async function createPoll(avatarUrl, title, about) {
@@ -86,31 +113,6 @@ export async function submitProposal(pollOwnerAddress, proposalTitle) {
   await proposalTxn.wait();
   // console.log("Mined -- ", proposalTxn.hash);
   return proposalTxn.hash;
-}
-
-export async function getProposals(pollOwnerAddress) {
-  if (!pollOwnerAddress) {
-    return [];
-  }
-  if (!window.ethereum) {
-    alert("You need MetaMask!");
-    // TODO remove this if we add Infura
-    return;
-  }
-
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const ethPollContract = new ethers.Contract(
-    CONTRACT_ADDRESS,
-    CONTRACT_ABI,
-    provider
-  );
-
-  const count = await ethPollContract.getProposalCount(pollOwnerAddress);
-  const proposals = [];
-  for (let i = 0; i < count; i++) {
-    proposals.push(await ethPollContract.getProposal(pollOwnerAddress, i));
-  }
-  return proposals;
 }
 
 export async function upvote(pollOwnerAddress, proposalIndex) {
