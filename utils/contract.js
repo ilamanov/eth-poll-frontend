@@ -68,14 +68,15 @@ export function createPoll(avatarUrl, title, about) {
     });
 }
 
-export async function editPoll(avatarUrl, title, about) {
-  const ethPollContract = getContract("private");
-
-  const pollTxn = await ethPollContract.editPoll(avatarUrl, title, about);
-  // console.log("Mining...", pollTxn.hash);
-  await pollTxn.wait();
-  // console.log("Mined -- ", pollTxn.hash);
-  return pollTxn.hash;
+export function editPoll(avatarUrl, title, about) {
+  return getContract("private")
+    .editPoll(avatarUrl, title, about)
+    .then((pollTxn) => {
+      return pollTxn.wait(); // wait until mined
+    })
+    .then((receipt) => {
+      return receipt.transactionHash;
+    });
 }
 
 export async function submitProposal(pollOwnerAddress, proposalTitle) {

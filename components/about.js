@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "../styles/components/about.module.css";
 import { IdentityView } from "./identity";
 import PollParams from "./poll_params";
+import { editPoll } from "../utils/contract";
 
 export default function About({
   avatarUrl,
@@ -52,7 +53,19 @@ export default function About({
           isActive={isPollParamsOpen}
           setIsActive={setIsPollParamsOpen}
           pollOwnerAddress={editable.pollOwnerAddress}
-          onSubmit={editable.onEdit}
+          onSubmit={(avatarUrl, title, about) => {
+            editPoll(avatarUrl, title, about)
+              .then((txnHash) => {
+                editable.onPollEdited();
+              })
+              .catch((error) => {
+                if (error.code === 4001) {
+                  alert("Transaction was denied in MetaMask");
+                } else {
+                  alert(error.message);
+                }
+              });
+          }}
           submitText="Edit Poll using MetaMask"
           initialValues={{ avatarUrl: avatarUrl, title: title, about: about }}
         />

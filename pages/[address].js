@@ -4,7 +4,6 @@ import Head from "next/head";
 import styles from "../styles/Poll.module.css";
 import {
   getPollData,
-  editPoll,
   submitProposal,
   upvote,
   downvote,
@@ -51,10 +50,7 @@ export default function Poll({ pollData }) {
               editable={{
                 value: doesOwnPoll,
                 pollOwnerAddress: pollData.ownerAddress,
-                onEdit: async (avatarUrl, title, about) => {
-                  await editPoll(avatarUrl, title, about);
-                  router.reload(window.location.pathname);
-                },
+                onPollEdited: () => router.reload(window.location.pathname),
               }}
             />
             <Propose
