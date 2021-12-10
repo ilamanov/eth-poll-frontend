@@ -32,18 +32,36 @@ async function checkIfWalletIsConnected(isMobileDevice, onConnected) {
   }
 }
 
+function handleAccountsChanged(accounts, onAccountChanged) {
+  if (accounts.length > 0) {
+    onAccountChanged(accounts[0]);
+  } else {
+    onAccountChanged("");
+  }
+}
+
+function addAccountChangeListener(onAccountChanged) {
+  window.ethereum.on("accountsChanged", (accounts) =>
+    handleAccountsChanged(accounts, onAccountChanged)
+  );
+}
+
+function removeAccountChangeListener(onAccountChanged) {
+  window.ethereum.removeListener("accountsChanged", (accounts) =>
+    handleAccountsChanged(accounts, onAccountChanged)
+  );
+}
+
 export default function Identity({ onIdentityChanged }) {
   const [isMobileDevice, setIsMobileDevice] = useState(undefined);
   const [userAddress, setUserAddress] = useState("");
 
   useEffect(() => {
-    checkIfWalletIsConnected(isMobileDevice, setUserAddress);
-  }, []);
-
-  useEffect(() => {
-    setIsMobileDevice(
-      "ontouchstart" in window || "onmsgesturechange" in window
-    );
+    const mobile = "ontouchstart" in window || "onmsgesturechange" in window;
+    setIsMobileDevice(mobile);
+    checkIfWalletIsConnected(mobile, setUserAddress);
+    addAccountChangeListener(setUserAddress);
+    return () => removeAccountChangeListener(setUserAddress);
   }, []);
 
   useEffect(() => {
