@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "../styles/components/poll_params.module.css";
-import Identity from "../components/identity";
+import Identity, { IdentityView } from "../components/identity";
 import About from "../components/about";
 import { areAddressesTheSame } from "../utils/contract";
 
@@ -93,7 +93,7 @@ function ModalContent({
   return (
     <div className={styles.modalContainer}>
       <Identity onIdentityChanged={(address) => setUserAddress(address)} />
-      {doesOwnPoll && (
+      {doesOwnPoll ? (
         <>
           <div style={{ marginTop: "2.5em" }} />
           <div className="field">
@@ -168,7 +168,16 @@ function ModalContent({
             </button>
           </div>
         </>
-      )}
+      ) : userAddress !== "" ? (
+        <div className={styles.helperText}>
+          You need to connect with the address{" "}
+          <IdentityView
+            address={pollOwnerAddress}
+            isAddressMine={doesOwnPoll}
+          />{" "}
+          to create a poll on this page
+        </div>
+      ) : null}
     </div>
   );
 }
