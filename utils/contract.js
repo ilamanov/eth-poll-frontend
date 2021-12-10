@@ -160,7 +160,11 @@ export async function downvote(pollOwnerAddress, proposalIndex) {
 }
 
 export function areAddressesTheSame(addr1, addr2) {
-  return ethers.utils.getAddress(addr1) === ethers.utils.getAddress(addr2);
+  return (
+    addr1 &&
+    addr2 &&
+    ethers.utils.getAddress(addr1) === ethers.utils.getAddress(addr2)
+  );
 }
 
 export function doesIncludeAddress(array, addr) {

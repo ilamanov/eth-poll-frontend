@@ -15,7 +15,7 @@ export default function ProposalList({
         <div
           className={
             styles.up +
-            (doesIncludeAddress(p.upvotes, userAddress)
+            (userAddress && doesIncludeAddress(p.upvotes, userAddress)
               ? " " + styles.orange
               : "")
           }
@@ -44,7 +44,11 @@ export default function ProposalList({
           Created by{" "}
           <IdentityView
             address={p.createdBy}
-            isAddressMine={areAddressesTheSame(userAddress, p.createdBy)}
+            isAddressMine={
+              userAddress &&
+              p.createdBy &&
+              areAddressesTheSame(userAddress, p.createdBy)
+            }
           />
         </div>
       </div>
