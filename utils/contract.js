@@ -40,18 +40,19 @@ export async function getPollData(pollOwnerAddress) {
   };
   pollExtended.ownerAddress = pollOwnerAddress;
 
-  const count = await ethPollContract.getProposalCount(pollOwnerAddress);
-  const proposals = [];
-  for (let i = 0; i < count; i++) {
-    const proposal = await ethPollContract.getProposal(pollOwnerAddress, i);
-    proposals.push({
-      title: proposal.title,
-      createdBy: proposal.createdBy,
-      upvotes: proposal.upvotes,
-      downvotes: proposal.downvotes,
-    });
+  pollExtended.proposals = [];
+  if (poll.isActive) {
+    const count = await ethPollContract.getProposalCount(pollOwnerAddress);
+    for (let i = 0; i < count; i++) {
+      const proposal = await ethPollContract.getProposal(pollOwnerAddress, i);
+      pollExtended.proposals.push({
+        title: proposal.title,
+        createdBy: proposal.createdBy,
+        upvotes: proposal.upvotes,
+        downvotes: proposal.downvotes,
+      });
+    }
   }
-  pollExtended.proposals = proposals;
 
   return pollExtended;
 }
