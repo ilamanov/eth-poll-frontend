@@ -23,14 +23,13 @@ export default function Poll() {
   const router = useRouter();
   const pollOwnerAddress = router.query.address;
 
+  const [userAddress, setUserAddress] = useState("");
+
   const [isPollActive, setIsPollActive] = useState(undefined);
   const [avatarUrl, setAvatarUrl] = useState("");
   const [title, setTitle] = useState("");
   const [about, setAbout] = useState("");
-
   const [proposals, setProposals] = useState([]);
-
-  const [userAddress, setUserAddress] = useState("");
 
   const doesOwnPoll =
     userAddress &&
@@ -43,7 +42,6 @@ export default function Poll() {
     setTitle(poll.title);
     setAbout(poll.bio);
     setIsPollActive(poll.isActive);
-
     setProposals(await getProposals(pollOwnerAddress));
   };
 
