@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/components/identity.module.css";
 
-function isMobileDevice() {
-  return "ontouchstart" in window || "onmsgesturechange" in window;
-}
-
 async function connect(onConnected) {
   if (!window.ethereum) {
     alert("Get MetaMask!");
@@ -18,7 +14,7 @@ async function connect(onConnected) {
   onConnected(accounts[0]);
 }
 
-async function checkIfWalletIsConnected(onConnected) {
+async function checkIfWalletIsConnected(isMobileDevice, onConnected) {
   if (window.ethereum) {
     const accounts = await window.ethereum.request({
       method: "eth_accounts",
@@ -30,17 +26,24 @@ async function checkIfWalletIsConnected(onConnected) {
       return;
     }
 
-    if (isMobileDevice()) {
+    if (isMobileDevice) {
       await connect(onConnected);
     }
   }
 }
 
 export default function Identity({ onIdentityChanged }) {
+  const [isMobileDevice, setIsMobileDevice] = useState(undefined);
   const [userAddress, setUserAddress] = useState("");
 
   useEffect(() => {
-    checkIfWalletIsConnected(setUserAddress);
+    checkIfWalletIsConnected(isMobileDevice, setUserAddress);
+  }, []);
+
+  useEffect(() => {
+    setIsMobileDevice(
+      "ontouchstart" in window || "onmsgesturechange" in window
+    );
   }, []);
 
   useEffect(() => {
@@ -54,12 +57,12 @@ export default function Identity({ onIdentityChanged }) {
       Connected with <IdentityView address={userAddress} isAddressMine={true} />
     </div>
   ) : (
-    <Connect setUserAddress={setUserAddress} />
+    <Connect isMobileDevice={isMobileDevice} setUserAddress={setUserAddress} />
   );
 }
 
-function Connect({ setUserAddress }) {
-  if (isMobileDevice()) {
+function Connect({ isMobileDevice, setUserAddress }) {
+  if (isMobileDevice) {
     const dappUrl = "metamask-auth.ilamanov.repl.co"; // TODO enter your dapp URL. For example: https://uniswap.exchange. (don't enter the "https://")
     const metamaskAppDeepLink = "https://metamask.app.link/dapp/" + dappUrl;
     return (
