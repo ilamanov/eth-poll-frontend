@@ -4,7 +4,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["eth-poll.s3.amazonaws.com"],
+    domains: ["eth-poll.s3.amazonaws.com", "res.cloudinary.com"],
   },
 };
 
