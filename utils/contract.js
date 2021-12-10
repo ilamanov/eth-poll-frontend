@@ -12,7 +12,11 @@ function getContract(transactionType) {
       infura: process.env.INFURA_PROJECT_ID,
     });
   } else if (transactionType === "private") {
-    provider = "TODO";
+    if (!window.ethereum) {
+      alert("You need to connect to MetaMask!");
+      return null;
+    }
+    provider = new ethers.providers.Web3Provider(window.ethereum).getSigner();
   } else {
     throw "Unknown transaction type " + transactionType;
   }
@@ -53,17 +57,7 @@ export async function getPollData(pollOwnerAddress) {
 }
 
 export async function createPoll(avatarUrl, title, about) {
-  if (!window.ethereum) {
-    alert("You need MetaMask!");
-    return;
-  }
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const ethPollContract = new ethers.Contract(
-    CONTRACT_ADDRESS,
-    CONTRACT_ABI,
-    signer
-  );
+  const ethPollContract = getContract("private");
 
   const pollTxn = await ethPollContract.createPoll(avatarUrl, title, about);
   // console.log("Mining...", pollTxn.hash);
@@ -73,17 +67,7 @@ export async function createPoll(avatarUrl, title, about) {
 }
 
 export async function editPoll(avatarUrl, title, about) {
-  if (!window.ethereum) {
-    alert("You need MetaMask!");
-    return;
-  }
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const ethPollContract = new ethers.Contract(
-    CONTRACT_ADDRESS,
-    CONTRACT_ABI,
-    signer
-  );
+  const ethPollContract = getContract("private");
 
   const pollTxn = await ethPollContract.editPoll(avatarUrl, title, about);
   // console.log("Mining...", pollTxn.hash);
@@ -93,17 +77,7 @@ export async function editPoll(avatarUrl, title, about) {
 }
 
 export async function submitProposal(pollOwnerAddress, proposalTitle) {
-  if (!window.ethereum) {
-    alert("You need MetaMask!");
-    return;
-  }
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const ethPollContract = new ethers.Contract(
-    CONTRACT_ADDRESS,
-    CONTRACT_ABI,
-    signer
-  );
+  const ethPollContract = getContract("private");
 
   const proposalTxn = await ethPollContract.propose(
     pollOwnerAddress,
@@ -116,17 +90,7 @@ export async function submitProposal(pollOwnerAddress, proposalTitle) {
 }
 
 export async function upvote(pollOwnerAddress, proposalIndex) {
-  if (!window.ethereum) {
-    alert("You need MetaMask!");
-    return;
-  }
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const ethPollContract = new ethers.Contract(
-    CONTRACT_ADDRESS,
-    CONTRACT_ABI,
-    signer
-  );
+  const ethPollContract = getContract("private");
 
   const upvoteTxn = await ethPollContract.upvote(
     pollOwnerAddress,
@@ -139,17 +103,7 @@ export async function upvote(pollOwnerAddress, proposalIndex) {
 }
 
 export async function downvote(pollOwnerAddress, proposalIndex) {
-  if (!window.ethereum) {
-    alert("You need MetaMask!");
-    return;
-  }
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const ethPollContract = new ethers.Contract(
-    CONTRACT_ADDRESS,
-    CONTRACT_ABI,
-    signer
-  );
+  const ethPollContract = getContract("private");
 
   const downvoteTxn = await ethPollContract.downvote(
     pollOwnerAddress,
