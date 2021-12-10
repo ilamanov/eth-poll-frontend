@@ -79,17 +79,15 @@ export function editPoll(avatarUrl, title, about) {
     });
 }
 
-export async function submitProposal(pollOwnerAddress, proposalTitle) {
-  const ethPollContract = getContract("private");
-
-  const proposalTxn = await ethPollContract.propose(
-    pollOwnerAddress,
-    proposalTitle
-  );
-  // console.log("Mining...", proposalTxn.hash);
-  await proposalTxn.wait();
-  // console.log("Mined -- ", proposalTxn.hash);
-  return proposalTxn.hash;
+export function submitProposal(pollOwnerAddress, proposalTitle) {
+  return getContract("private")
+    .propose(pollOwnerAddress, proposalTitle)
+    .then((proposalTxn) => {
+      return proposalTxn.wait(); // wait until mined
+    })
+    .then((receipt) => {
+      return receipt.transactionHash;
+    });
 }
 
 export async function upvote(pollOwnerAddress, proposalIndex) {
