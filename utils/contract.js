@@ -90,30 +90,26 @@ export function submitProposal(pollOwnerAddress, proposalTitle) {
     });
 }
 
-export async function upvote(pollOwnerAddress, proposalIndex) {
-  const ethPollContract = getContract("private");
-
-  const upvoteTxn = await ethPollContract.upvote(
-    pollOwnerAddress,
-    proposalIndex
-  );
-  // console.log("Mining...", upvoteTxn.hash);
-  await upvoteTxn.wait();
-  // console.log("Mined -- ", upvoteTxn.hash);
-  return upvoteTxn.hash;
+export function upvote(pollOwnerAddress, proposalIndex) {
+  return getContract("private")
+    .upvote(pollOwnerAddress, proposalIndex)
+    .then((txn) => {
+      return txn.wait(); // wait until mined
+    })
+    .then((receipt) => {
+      return receipt.transactionHash;
+    });
 }
 
-export async function downvote(pollOwnerAddress, proposalIndex) {
-  const ethPollContract = getContract("private");
-
-  const downvoteTxn = await ethPollContract.downvote(
-    pollOwnerAddress,
-    proposalIndex
-  );
-  // console.log("Mining...", downvoteTxn.hash);
-  await downvoteTxn.wait();
-  // console.log("Mined -- ", downvoteTxn.hash);
-  return downvoteTxn.hash;
+export function downvote(pollOwnerAddress, proposalIndex) {
+  return getContract("private")
+    .downvote(pollOwnerAddress, proposalIndex)
+    .then((txn) => {
+      return txn.wait(); // wait until mined
+    })
+    .then((receipt) => {
+      return receipt.transactionHash;
+    });
 }
 
 export function areAddressesTheSame(addr1, addr2) {

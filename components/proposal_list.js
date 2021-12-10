@@ -1,16 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/components/proposal_list.module.scss";
-import { areAddressesTheSame, doesIncludeAddress } from "../utils/contract";
+import {
+  areAddressesTheSame,
+  doesIncludeAddress,
+  downvote,
+  upvote,
+} from "../utils/contract";
 import { IdentityView } from "./identity";
 
 export default function ProposalList({
   proposals,
   userAddress,
-  upvote,
-  downvote,
+  pollOwnerAddress,
+  onUpvoted,
+  onDownvoted,
 }) {
   return proposals.map((p, i) => (
-    <div key={i} className={"box " + styles.container}>
+    <Upvote
+      key={i}
+      p={p}
+      userAddress={userAddress}
+      pollOwnerAddress={pollOwnerAddress}
+      idx={i}
+      onUpvoted={onUpvoted}
+      onDownvoted={onDownvoted}
+    />
+  ));
+}
+
+function Upvote({
+  p,
+  userAddress,
+  pollOwnerAddress,
+  idx,
+  onUpvoted,
+  onDownvoted,
+}) {
+  const [isUpvoteMining, setIsUpvoteMining] = useState(false);
+  const [isDownvoteMining, setIsDownvoteMining] = useState(false);
+
+  return (
+    <div className={"box " + styles.container}>
       <div className={styles.upvotes}>
         <div
           className={
@@ -19,9 +49,29 @@ export default function ProposalList({
               ? " " + styles.orange
               : "")
           }
-          onClick={(e) => upvote(i)}
+          onClick={(e) => {
+            setIsUpvoteMining(true);
+            upvote(pollOwnerAddress, idx)
+              .then((txnHash) => {
+                onUpvoted();
+              })
+              .catch((error) => {
+                if (error.code === 4001) {
+                  alert("Transaction was denied in MetaMask");
+                } else {
+                  alert(error.message);
+                }
+              });
+          }}
         >
-          ▲
+          {isUpvoteMining ? (
+            <>
+              <span className={styles.isMining}>Mining...</span>
+              <button className={"button is-loading " + styles.fakeButton} />
+            </>
+          ) : (
+            "▲"
+          )}
         </div>
         <div className={styles.score}>
           {p.upvotes.length - p.downvotes.length}
@@ -33,9 +83,29 @@ export default function ProposalList({
               ? " " + styles.orange
               : "")
           }
-          onClick={(e) => downvote(i)}
+          onClick={(e) => {
+            setIsDownvoteMining(true);
+            downvote(pollOwnerAddress, idx)
+              .then((txnHash) => {
+                onDownvoted();
+              })
+              .catch((error) => {
+                if (error.code === 4001) {
+                  alert("Transaction was denied in MetaMask");
+                } else {
+                  alert(error.message);
+                }
+              });
+          }}
         >
-          ▼
+          {isDownvoteMining ? (
+            <>
+              <button className={"button is-loading " + styles.fakeButton} />
+              <span className={styles.isMining}>Mining...</span>
+            </>
+          ) : (
+            "▼"
+          )}
         </div>
       </div>
       <div className={styles.info}>
@@ -53,5 +123,5 @@ export default function ProposalList({
         </div>
       </div>
     </div>
-  ));
+  );
 }

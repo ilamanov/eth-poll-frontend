@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import styles from "../styles/Poll.module.css";
-import {
-  getPollData,
-  submitProposal,
-  upvote,
-  downvote,
-  areAddressesTheSame,
-} from "../utils/contract";
+import { getPollData, areAddressesTheSame } from "../utils/contract";
 import Identity from "../components/identity";
 import About from "../components/about";
 import Propose from "../components/propose";
@@ -67,14 +61,9 @@ export default function Poll({ pollData }) {
             <ProposalList
               proposals={pollData.proposals}
               userAddress={userAddress}
-              upvote={async (proposalIndex) => {
-                await upvote(pollData.ownerAddress, proposalIndex);
-                router.reload(window.location.pathname);
-              }}
-              downvote={async (proposalIndex) => {
-                await downvote(pollData.ownerAddress, proposalIndex);
-                router.reload(window.location.pathname);
-              }}
+              pollOwnerAddress={pollData.ownerAddress}
+              onUpvoted={reload}
+              onDownvoted={reload}
             />
           </main>
         </div>
