@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styles from "../styles/components/propose.module.css";
+import { submitProposal } from "../utils/contract";
 
-export default function Propose({ submitProposal }) {
+export default function Propose({ pollOwnerAddress, onProposalSubmitted }) {
   const [error, setError] = useState(false);
   const [proposal, setProposal] = useState("");
   const [isMining, setMining] = useState(false);
@@ -13,7 +14,18 @@ export default function Propose({ submitProposal }) {
     }
 
     setMining(true);
-    submitProposal(proposal);
+
+    submitProposal(pollOwnerAddress, proposal)
+      .then((txnHash) => {
+        onProposalSubmitted();
+      })
+      .catch((error) => {
+        if (error.code === 4001) {
+          alert("Transaction was denied in MetaMask");
+        } else {
+          alert(error.message);
+        }
+      });
   };
 
   return (
@@ -36,6 +48,7 @@ export default function Propose({ submitProposal }) {
       >
         Propose
       </button>
+      {isMining && "Mining..."}
     </div>
   );
 }

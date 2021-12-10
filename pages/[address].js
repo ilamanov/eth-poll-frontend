@@ -25,6 +25,10 @@ export default function Poll({ pollData }) {
     pollData.ownerAddress &&
     areAddressesTheSame(userAddress, pollData.ownerAddress);
 
+  function reload() {
+    router.reload(window.location.pathname);
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -50,14 +54,12 @@ export default function Poll({ pollData }) {
               editable={{
                 value: doesOwnPoll,
                 pollOwnerAddress: pollData.ownerAddress,
-                onPollEdited: () => router.reload(window.location.pathname),
+                onPollEdited: reload,
               }}
             />
             <Propose
-              submitProposal={async (proposalTitle) => {
-                await submitProposal(pollData.ownerAddress, proposalTitle);
-                router.reload(window.location.pathname);
-              }}
+              pollOwnerAddress={pollData.ownerAddress}
+              onProposalSubmitted={reload}
             />
           </header>
 
@@ -86,7 +88,7 @@ export default function Poll({ pollData }) {
           <div>{/* to make flex-space-between happy */}</div>
           <PollNotActive
             pollOwnerAddress={pollData.ownerAddress}
-            onPollCreated={() => router.reload(window.location.pathname)}
+            onPollCreated={reload}
           />
         </>
       )}
