@@ -13,3 +13,9 @@
   margin: 0.5em 0;
   line-height: 1.5em;
 }
+
+.isMining {
+  font-size: 1.2em;
+  margin: 0.25em;
+  display: inline-block;
+}

@@ -57,14 +57,15 @@ export async function getPollData(pollOwnerAddress) {
   return pollExtended;
 }
 
-export async function createPoll(avatarUrl, title, about) {
-  const ethPollContract = getContract("private");
-
-  const pollTxn = await ethPollContract.createPoll(avatarUrl, title, about);
-  // console.log("Mining...", pollTxn.hash);
-  await pollTxn.wait();
-  // console.log("Mined -- ", pollTxn.hash);
-  return pollTxn.hash;
+export function createPoll(avatarUrl, title, about) {
+  return getContract("private")
+    .createPoll(avatarUrl, title, about)
+    .then((pollTxn) => {
+      return pollTxn.wait(); // wait until mined
+    })
+    .then((receipt) => {
+      return receipt.transactionHash;
+    });
 }
 
 export async function editPoll(avatarUrl, title, about) {

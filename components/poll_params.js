@@ -166,6 +166,7 @@ function ModalContent({
             >
               {submitText}
             </button>
+            {isMining && <span className={styles.isMining}>Mining...</span>}
           </div>
         </>
       ) : userAddress !== "" ? (

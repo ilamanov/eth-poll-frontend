@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import styles from "../styles/Poll.module.css";
 import {
   getPollData,
-  createPoll,
   editPoll,
   submitProposal,
   upvote,
@@ -18,6 +18,7 @@ import PollNotActive from "../components/poll_not_active";
 import ProposalList from "../components/proposal_list";
 
 export default function Poll({ pollData }) {
+  const router = useRouter();
   const [userAddress, setUserAddress] = useState("");
 
   const doesOwnPoll =
@@ -89,10 +90,7 @@ export default function Poll({ pollData }) {
           <div>{/* to make flex-space-between happy */}</div>
           <PollNotActive
             pollOwnerAddress={pollData.ownerAddress}
-            createPoll={async (avatarUrl, title, about) => {
-              await createPoll(avatarUrl, title, about);
-              router.reload(window.location.pathname);
-            }}
+            onPollCreated={() => router.reload(window.location.pathname)}
           />
         </>
       )}
