@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "../styles/components/identity.module.css";
+import styles from "../styles/components/identity.module.scss";
 
 async function connect(onConnected) {
   if (!window.ethereum) {

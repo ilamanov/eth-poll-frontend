@@ -1,3 +1,5 @@
+@import "../global_variables.scss";
+
 .address {
   padding: 5px;
   border-radius: 5px;
@@ -6,6 +8,6 @@
 }
 
 .isAddressMine {
-  background-color: #e5771b;
+  background-color: $metamask;
   border: none;
 }

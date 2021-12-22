@@ -1,3 +1,5 @@
+@import "./global_variables.scss";
+
 @import "bulma/sass/utilities/_all.sass";
 @import "bulma/sass/base/animations.sass";
 @import "bulma/sass/elements/box.sass";
@@ -6,10 +8,6 @@
 @import "bulma/sass/form/shared.sass";
 @import "bulma/sass/form/input-textarea.sass";
 @import "bulma/sass/form/tools.sass";
-
-$milk: #fff1d7;
-$charcoal: #60584f;
-$orange: #e5771b;
 
 $primary: $charcoal;
 $scheme-main: $milk;
@@ -29,7 +27,7 @@ $text: $charcoal;
 
 .button.is-orange {
   color: white;
-  background: -webkit-linear-gradient(left, #e5771b, #753d16);
+  background: -webkit-linear-gradient(left, $metamask, $metamask-dark);
   background-size: 200% 200%;
   animation: gradient-animation 4s ease infinite;
 }
