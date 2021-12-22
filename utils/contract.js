@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import contractABI from "../utils/eth_poll_contract_abi.json";
 
-const CONTRACT_ADDRESS = "0x92442E534741B46c272dB358aBa7406f0d3be3Eb";
+const CONTRACT_ADDRESS = "0x474212cb1D8E5973EDd82B2711aBCd9B886Da750";
 const CONTRACT_ABI = contractABI.abi;
 const NETWORK = "goerli";
 
@@ -35,7 +35,7 @@ export async function getPollData(pollOwnerAddress) {
     isActive: poll.isActive,
     avatarUrl: poll.avatarUrl,
     title: poll.title,
-    about: poll.bio,
+    about: poll.about,
     createdTimestamp: poll.createdTimestamp.toString(),
   };
   pollExtended.ownerAddress = pollOwnerAddress;
