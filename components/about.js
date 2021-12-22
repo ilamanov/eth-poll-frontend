@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import styles from "../styles/components/about.module.css";
+import Modal from "./ui/modal";
 import { IdentityView } from "./identity";
 import PollParams from "./poll_params";
 import { editPoll } from "../utils/contract";
@@ -49,26 +50,26 @@ export default function About({
       <div className={styles.title}>{title}</div>
       <div className={styles.about}>{about}</div>
       {editable.value && (
-        <PollParams
-          isActive={isPollParamsOpen}
-          setIsActive={setIsPollParamsOpen}
-          pollOwnerAddress={editable.pollOwnerAddress}
-          onSubmit={(avatarUrl, title, about) => {
-            editPoll(avatarUrl, title, about)
-              .then((txnHash) => {
-                editable.onPollEdited();
-              })
-              .catch((error) => {
-                if (error.code === 4001) {
-                  alert("Transaction was denied in MetaMask");
-                } else {
-                  alert(error.message);
-                }
-              });
-          }}
-          submitText="Edit Poll using MetaMask"
-          initialValues={{ avatarUrl: avatarUrl, title: title, about: about }}
-        />
+        <Modal isActive={isPollParamsOpen} setIsActive={setIsPollParamsOpen}>
+          <PollParams
+            pollOwnerAddress={editable.pollOwnerAddress}
+            onSubmit={(avatarUrl, title, about) => {
+              editPoll(avatarUrl, title, about)
+                .then((txnHash) => {
+                  editable.onPollEdited();
+                })
+                .catch((error) => {
+                  if (error.code === 4001) {
+                    alert("Transaction was denied in MetaMask");
+                  } else {
+                    alert(error.message);
+                  }
+                });
+            }}
+            submitText="Edit Poll"
+            initialValues={{ avatarUrl: avatarUrl, title: title, about: about }}
+          />
+        </Modal>
       )}
     </>
   );

@@ -5,43 +5,6 @@ import About from "../components/about";
 import { areAddressesTheSame } from "../utils/contract";
 
 export default function PollParams({
-  isActive,
-  setIsActive,
-  pollOwnerAddress,
-  onSubmit,
-  submitText,
-  initialValues,
-}) {
-  return (
-    <div className={"modal" + (isActive ? " is-active" : "")}>
-      <div
-        className="modal-background"
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsActive(false);
-        }}
-      ></div>
-      <div className={"modal-content"}>
-        <ModalContent
-          pollOwnerAddress={pollOwnerAddress}
-          onSubmit={onSubmit}
-          submitText={submitText}
-          initialValues={initialValues}
-        />
-      </div>
-      <button
-        className="modal-close is-large"
-        aria-label="close"
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsActive(false);
-        }}
-      ></button>
-    </div>
-  );
-}
-
-function ModalContent({
   pollOwnerAddress,
   onSubmit,
   submitText,
@@ -91,7 +54,7 @@ function ModalContent({
   }
 
   return (
-    <div className={styles.modalContainer}>
+    <div className={styles.container}>
       <Identity onIdentityChanged={(address) => setUserAddress(address)} />
       {doesOwnPoll ? (
         <>
@@ -161,7 +124,7 @@ function ModalContent({
           <div>
             <button
               type="submit"
-              className={"button is-orange" + (isMining ? " is-loading" : "")}
+              className={"button is-green" + (isMining ? " is-loading" : "")}
               onClick={submit}
             >
               {submitText}
