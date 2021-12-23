@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/components/poll_not_active.module.css";
 import Modal from "./ui/modal";
+import CostBadge from "./ui/cost_badge";
 import { IdentityView } from "../components/identity";
 import PollParams from "./poll_params";
 import { createPoll } from "../utils/contract";
@@ -18,12 +19,19 @@ export default function PollNotActive({ pollOwnerAddress, onPollCreated }) {
         If you own this address, you can create your poll.
       </div>
       <div className={styles.createPollButtonContainer}>
-        <button
-          className="button is-green"
-          onClick={(e) => setIsPollParamsOpen(!isPollParamsOpen)}
+        <CostBadge
+          amount={0.0025}
+          network="ethereum"
+          wallet="metamask"
+          collapsed
         >
-          Create Poll
-        </button>
+          <button
+            className="button is-green"
+            onClick={(e) => setIsPollParamsOpen(!isPollParamsOpen)}
+          >
+            Create Poll
+          </button>
+        </CostBadge>
       </div>
       <Modal isActive={isPollParamsOpen} onActiveChanged={setIsPollParamsOpen}>
         <PollParams

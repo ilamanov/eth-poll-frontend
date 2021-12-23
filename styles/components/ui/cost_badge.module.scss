@@ -1,0 +1,68 @@
+@import "../../global_variables.scss";
+
+$size: 23px;
+$half-size: 11.5px;
+
+.container {
+  position: relative;
+}
+
+.badgeContainer {
+  height: $size;
+  border-radius: $half-size;
+  position: absolute;
+  right: -$half-size;
+  top: -$half-size;
+}
+
+.badgeContainer:hover {
+  cursor: default;
+}
+
+.metamask {
+  background-color: $metamask;
+  color: white;
+}
+
+.ethereum {
+  background-color: $ethereum-light;
+  color: black;
+}
+
+.badge {
+  max-width: $size;
+  transition: max-width 500ms;
+  // flex for centering text vertically
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: row;
+}
+
+.badgeContainer:hover .badge {
+  max-width: 120px;
+}
+
+.imgContainer {
+  width: $size;
+  height: $size;
+  transition: transform 1000ms;
+}
+
+.badgeContainer:hover .imgContainer {
+  transform: rotateY(180deg);
+}
+
+.textContainer {
+  line-height: $size;
+  font-size: 15px;
+  text-overflow: clip;
+  overflow: hidden;
+  white-space: nowrap;
+  display: none;
+  padding: 0 5px;
+}
+
+.badgeContainer:hover .textContainer {
+  display: block;
+}
