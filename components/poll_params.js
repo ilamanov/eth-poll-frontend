@@ -3,6 +3,7 @@ import styles from "../styles/components/poll_params.module.css";
 import Identity, { IdentityView } from "../components/identity";
 import About from "../components/about";
 import { areAddressesTheSame } from "../utils/contract";
+import CostBadge from "./ui/cost_badge";
 
 export default function PollParams({
   pollOwnerAddress,
@@ -122,13 +123,15 @@ export default function PollParams({
           />
           <div style={{ marginTop: "1.5em" }} />
           <div>
-            <button
-              type="submit"
-              className={"button is-green" + (isMining ? " is-loading" : "")}
-              onClick={submit}
-            >
-              {submitText}
-            </button>
+            <CostBadge network="ethereum">
+              <button
+                type="submit"
+                className={"button is-green" + (isMining ? " is-loading" : "")}
+                onClick={submit}
+              >
+                {submitText}
+              </button>
+            </CostBadge>
             {isMining && <span className={styles.isMining}>Mining...</span>}
           </div>
         </>
