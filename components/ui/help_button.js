@@ -47,7 +47,7 @@ export default function HelpButton() {
           <div className={styles.text}>
             The winning proposal gets all the money. The money is distributed
             among the proposal creator and its upvotes. Proposal creator gets
-            10x, the amount the upvotes get.
+            10x the amount the upvotes get.
           </div>
           <div className={styles.text}>
             The poll runs until the poll owner does not stop it
