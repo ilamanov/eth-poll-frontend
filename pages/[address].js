@@ -27,8 +27,8 @@ export default function Poll({ pollData }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Ξ ETH Poll</title>
-        <meta name="description" content="Vote with Ethereum" />
+        <title>DePoll</title>
+        <meta name="description" content="Vote with Ethereum or Solana" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -36,7 +36,12 @@ export default function Poll({ pollData }) {
         <div>
           <header className={styles.header}>
             <div className={styles.navBar}>
-              <WavingHand />
+              <div>
+                <div className={styles.logo}>
+                  <WavingHand />
+                </div>
+                <div className={styles.depoll}>DePoll</div>
+              </div>
               <Identity
                 onIdentityChanged={(address) => setUserAddress(address)}
               />

@@ -18,6 +18,15 @@
   align-items: center;
 }
 
+.logo {
+  margin-left: 5px;
+}
+
+.depoll {
+  font-weight: 600;
+  font-size: 1.2em;
+}
+
 .main {
   margin: 2em 0;
 }
