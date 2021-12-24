@@ -1,0 +1,52 @@
+@import "../../global_variables.scss";
+
+.helpButton {
+  padding: 0;
+  height: 50px;
+  width: 50px;
+  background-color: $milk;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  border: none;
+  border-radius: 25px;
+  position: absolute;
+  right: 70px;
+  top: -50px;
+}
+
+.helpButton:hover {
+  cursor: pointer;
+}
+
+.helpImage {
+  opacity: 0.5;
+}
+
+.helpDialogContainer {
+  background-color: $milk;
+  padding: 1em;
+}
+
+.costText {
+  padding: 0.5em 0;
+}
+
+.cost {
+  color: $ethereum;
+  font-weight: 600;
+}
+
+.example {
+  margin-top: 1.5em;
+  padding-right: 1ch;
+}
+
+.text {
+  margin-top: 2em;
+}
+
+@media (max-width: 700px) {
+  .helpButton {
+    right: 10px;
+    top: -50px;
+  }
+}
