@@ -19,13 +19,13 @@ $half-size: 11.5px;
   cursor: default;
 }
 
-.metamask {
-  background-color: $metamask;
-  color: white;
-}
-
 .ethereum {
   background-color: $ethereum-light;
+  color: black;
+}
+
+.solana {
+  background: -webkit-linear-gradient(25deg, $solana-purple, $solana-green);
   color: black;
 }
 
@@ -50,7 +50,7 @@ $half-size: 11.5px;
 }
 
 .badgeContainer:hover .imgContainer {
-  transform: rotateY(180deg);
+  transform: rotateY(360deg);
 }
 
 .textContainer {

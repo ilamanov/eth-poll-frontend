@@ -19,12 +19,7 @@ export default function PollNotActive({ pollOwnerAddress, onPollCreated }) {
         If you own this address, you can create your poll.
       </div>
       <div className={styles.createPollButtonContainer}>
-        <CostBadge
-          amount={0.0025}
-          network="ethereum"
-          wallet="metamask"
-          collapsed
-        >
+        <CostBadge network="ethereum">
           <button
             className="button is-green"
             onClick={(e) => setIsPollParamsOpen(!isPollParamsOpen)}
