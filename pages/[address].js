@@ -9,6 +9,7 @@ import Propose from "../components/propose";
 import TwitterFooter from "../components/twitter_footer";
 import PollNotActive from "../components/poll_not_active";
 import ProposalList from "../components/proposal_list";
+import WavingHand from "../components/ui/waving_hand";
 
 export default function Poll({ pollData }) {
   const router = useRouter();
@@ -35,6 +36,7 @@ export default function Poll({ pollData }) {
         <div>
           <header className={styles.header}>
             <div className={styles.navBar}>
+              <WavingHand />
               <Identity
                 onIdentityChanged={(address) => setUserAddress(address)}
               />

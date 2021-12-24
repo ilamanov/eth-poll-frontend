@@ -1,0 +1,18 @@
+@keyframes wave {
+  0% {
+    transform: rotate(-10deg);
+  }
+  25% {
+    transform: rotate(30deg);
+  }
+  100% {
+    transform: rotate(30deg);
+  }
+}
+
+.wave {
+  display: inline-block;
+  font-size: 32px;
+  animation: wave 4000ms infinite alternate ease-in-out;
+  transform-origin: 75% 80%;
+}
