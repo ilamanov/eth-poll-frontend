@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import styles from "../styles/Poll.module.css";
+import styles from "../styles/Poll.module.scss";
 import { getPollData, areAddressesTheSame } from "../utils/contract";
 import Identity from "../components/identity";
 import About from "../components/about";
@@ -10,6 +10,7 @@ import TwitterFooter from "../components/ui/twitter_footer";
 import PollNotActive from "../components/poll_not_active";
 import ProposalList from "../components/proposal_list";
 import WavingHand from "../components/ui/waving_hand";
+import HelpButton from "../components/ui/help_button";
 
 export default function Poll({ pollData }) {
   const router = useRouter();
@@ -89,7 +90,8 @@ export default function Poll({ pollData }) {
         </>
       )}
 
-      <footer>
+      <footer className={styles.footer}>
+        <HelpButton />
         <TwitterFooter />
       </footer>
     </div>
