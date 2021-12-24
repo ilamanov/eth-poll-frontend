@@ -4,9 +4,12 @@ import {
   areAddressesTheSame,
   doesIncludeAddress,
   downvote,
+  DOWNVOTE_COST,
   upvote,
+  UPVOTE_COST,
 } from "../utils/contract";
 import { IdentityView } from "./identity";
+import CostBadge from "./ui/cost_badge";
 
 export default function ProposalList({
   proposals,
@@ -15,10 +18,10 @@ export default function ProposalList({
   onUpvoted,
   onDownvoted,
 }) {
-  return proposals.map((p, i) => (
-    <Upvote
+  return proposals.map((proposal, i) => (
+    <Proposal
       key={i}
-      p={p}
+      proposal={proposal}
       userAddress={userAddress}
       pollOwnerAddress={pollOwnerAddress}
       idx={i}
@@ -28,29 +31,24 @@ export default function ProposalList({
   ));
 }
 
-function Upvote({
-  p,
+function Proposal({
+  proposal,
   userAddress,
   pollOwnerAddress,
   idx,
   onUpvoted,
   onDownvoted,
 }) {
-  const [isUpvoteMining, setIsUpvoteMining] = useState(false);
-  const [isDownvoteMining, setIsDownvoteMining] = useState(false);
-
   return (
-    <div className={"box " + styles.container}>
-      <div className={styles.upvotes}>
-        <div
-          className={
-            styles.up +
-            (userAddress && doesIncludeAddress(p.upvotes, userAddress)
-              ? " " + styles.orange
-              : "")
+    <div className={"box " + styles.proposalContainer}>
+      <div className={styles.scoreContainer}>
+        <Arrow
+          direction="up"
+          isHighlighted={
+            userAddress && doesIncludeAddress(proposal.upvotes, userAddress)
           }
-          onClick={(e) => {
-            setIsUpvoteMining(true);
+          cost={idx === 0 ? UPVOTE_COST : null}
+          onClick={() =>
             upvote(pollOwnerAddress, idx)
               .then((txnHash) => {
                 onUpvoted();
@@ -61,30 +59,19 @@ function Upvote({
                 } else {
                   alert(error.message);
                 }
-              });
-          }}
-        >
-          {isUpvoteMining ? (
-            <>
-              <span className={styles.isMining}>Mining...</span>
-              <button className={"button is-loading " + styles.fakeButton} />
-            </>
-          ) : (
-            "▲"
-          )}
-        </div>
-        <div className={styles.score}>
-          {p.upvotes.length - p.downvotes.length}
-        </div>
-        <div
-          className={
-            styles.down +
-            (doesIncludeAddress(p.downvotes, userAddress)
-              ? " " + styles.orange
-              : "")
+              })
           }
-          onClick={(e) => {
-            setIsDownvoteMining(true);
+        />
+        <div className={styles.score}>
+          {proposal.upvotes.length - proposal.downvotes.length}
+        </div>
+        <Arrow
+          direction="down"
+          isHighlighted={
+            userAddress && doesIncludeAddress(proposal.downvotes, userAddress)
+          }
+          cost={idx === 0 ? DOWNVOTE_COST : null}
+          onClick={() =>
             downvote(pollOwnerAddress, idx)
               .then((txnHash) => {
                 onDownvoted();
@@ -95,33 +82,57 @@ function Upvote({
                 } else {
                   alert(error.message);
                 }
-              });
-          }}
-        >
-          {isDownvoteMining ? (
-            <>
-              <button className={"button is-loading " + styles.fakeButton} />
-              <span className={styles.isMining}>Mining...</span>
-            </>
-          ) : (
-            "▼"
-          )}
-        </div>
+              })
+          }
+        />
       </div>
       <div className={styles.info}>
-        <div className={styles.title}>{p.title}</div>
+        <div className={styles.title}>{proposal.title}</div>
         <div className={styles.createdBy}>
           Created by{" "}
           <IdentityView
-            address={p.createdBy}
+            address={proposal.createdBy}
             isAddressMine={
               userAddress &&
-              p.createdBy &&
-              areAddressesTheSame(userAddress, p.createdBy)
+              proposal.createdBy &&
+              areAddressesTheSame(userAddress, proposal.createdBy)
             }
           />
         </div>
       </div>
+    </div>
+  );
+}
+
+function Arrow({ direction, isHighlighted, cost, onClick }) {
+  const [isMining, setIsMining] = useState(false);
+
+  let button = (
+    <button
+      className={`button ${styles.arrowButton} ${
+        isMining ? "is-loading" : ""
+      } ${isHighlighted ? styles.highlighted : ""}`}
+      onClick={() => {
+        setIsMining(true);
+        onClick();
+      }}
+    >
+      {direction === "up" ? "▲" : "▼"}
+    </button>
+  );
+
+  if (cost) {
+    button = (
+      <CostBadge amount={cost} network="ethereum">
+        {button}
+      </CostBadge>
+    );
+  }
+
+  return (
+    <div className={styles.arrowContainer}>
+      {button}
+      {isMining && <span className={styles.isMiningText}>Mining...</span>}
     </div>
   );
 }
