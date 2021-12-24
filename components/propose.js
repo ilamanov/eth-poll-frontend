@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/components/propose.module.css";
-import { submitProposal } from "../utils/contract";
+import { submitProposal, PROPOSE_COST } from "../utils/contract";
+import CostBadge from "./ui/cost_badge";
 
 export default function Propose({ pollOwnerAddress, onProposalSubmitted }) {
   const [error, setError] = useState(false);
@@ -42,12 +43,14 @@ export default function Propose({ pollOwnerAddress, onProposalSubmitted }) {
         </div>
         {error && <p className="help is-danger">Proposal can not be empty</p>}
       </div>
-      <button
-        className={"button is-green" + (isMining ? " is-loading" : "")}
-        onClick={propose}
-      >
-        Propose
-      </button>
+      <CostBadge amount={PROPOSE_COST} network="ethereum">
+        <button
+          className={"button is-green" + (isMining ? " is-loading" : "")}
+          onClick={propose}
+        >
+          Propose
+        </button>
+      </CostBadge>
       {isMining && "Mining..."}
     </div>
   );
