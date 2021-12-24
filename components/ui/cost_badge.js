@@ -7,7 +7,7 @@ export default function CostBadge({ amount, network, children }) {
   if (amount === 0 || amount === undefined) {
     text = "gas fees";
   } else {
-    if (amount < 0.001) {
+    if (amount < 0.01) {
       text = `${amount / 0.001} m`;
     } else {
       text = `${amount} `;
