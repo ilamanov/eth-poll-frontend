@@ -4,6 +4,9 @@ import contractABI from "../utils/eth_poll_contract_abi.json";
 const CONTRACT_ADDRESS = "0x474212cb1D8E5973EDd82B2711aBCd9B886Da750";
 const CONTRACT_ABI = contractABI.abi;
 const NETWORK = "goerli";
+export const PROPOSE_COST = 0.0025;
+export const UPVOTE_COST = 0.00025;
+export const DOWNVOTE_COST = 0.0005;
 
 function getContract(transactionType) {
   let provider;
@@ -81,7 +84,9 @@ export function editPoll(avatarUrl, title, about) {
 
 export function submitProposal(pollOwnerAddress, proposalTitle) {
   return getContract("private")
-    .propose(pollOwnerAddress, proposalTitle)
+    .propose(pollOwnerAddress, proposalTitle, {
+      value: ethers.utils.parseEther(PROPOSE_COST.toString()),
+    })
     .then((proposalTxn) => {
       return proposalTxn.wait(); // wait until mined
     })
@@ -92,7 +97,9 @@ export function submitProposal(pollOwnerAddress, proposalTitle) {
 
 export function upvote(pollOwnerAddress, proposalIndex) {
   return getContract("private")
-    .upvote(pollOwnerAddress, proposalIndex)
+    .upvote(pollOwnerAddress, proposalIndex, {
+      value: ethers.utils.parseEther(UPVOTE_COST.toString()),
+    })
     .then((txn) => {
       return txn.wait(); // wait until mined
     })
@@ -103,7 +110,9 @@ export function upvote(pollOwnerAddress, proposalIndex) {
 
 export function downvote(pollOwnerAddress, proposalIndex) {
   return getContract("private")
-    .downvote(pollOwnerAddress, proposalIndex)
+    .downvote(pollOwnerAddress, proposalIndex, {
+      value: ethers.utils.parseEther(DOWNVOTE_COST.toString()),
+    })
     .then((txn) => {
       return txn.wait(); // wait until mined
     })
