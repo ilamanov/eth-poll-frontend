@@ -6,7 +6,7 @@ import { getPollData, areAddressesTheSame } from "../utils/contract";
 import Identity from "../components/identity";
 import About from "../components/about";
 import Propose from "../components/propose";
-import TwitterFooter from "../components/twitter_footer";
+import TwitterFooter from "../components/ui/twitter_footer";
 import PollNotActive from "../components/poll_not_active";
 import ProposalList from "../components/proposal_list";
 import WavingHand from "../components/ui/waving_hand";
@@ -84,7 +84,9 @@ export default function Poll({ pollData }) {
         </>
       )}
 
-      <TwitterFooter />
+      <footer>
+        <TwitterFooter />
+      </footer>
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import Image from "next/image";
-import styles from "../styles/components/twitter_footer.module.css";
+import styles from "../../styles/components/ui/twitter_footer.module.css";
 
 const TWITTER_HANDLE = "nazar_ilamanov";
 
 export default function TwitterFooter() {
   return (
-    <footer className={styles.footer}>
+    <div className={styles.container}>
       <Image
         src="/twitter-logo.svg"
         alt="Twitter Logo"
@@ -13,13 +13,13 @@ export default function TwitterFooter() {
         height={32}
       />
       <a
-        className={styles.footerText}
+        className={styles.text}
         href={`https://twitter.com/${TWITTER_HANDLE}`}
         target="_blank"
         rel="noreferrer"
       >
         built by @<span className={styles.twitterLink}>{TWITTER_HANDLE}</span>
       </a>
-    </footer>
+    </div>
   );
 }

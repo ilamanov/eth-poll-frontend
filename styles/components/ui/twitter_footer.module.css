@@ -1,4 +1,4 @@
-.footer {
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,7 +6,7 @@
   padding-bottom: 15px;
 }
 
-.footerText {
+.text {
   font-size: 16px;
   font-weight: bold;
   color: inherit;
