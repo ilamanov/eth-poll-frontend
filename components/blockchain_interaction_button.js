@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import styles from "../styles/components/blockchain_interaction_button.module.scss";
 
 export default function BlockchainInteractionButton({
-  className,
-  style,
-  children,
   shouldStartOnClick,
   startTransactionOnClick,
   onTransactionConfirmed,
+  children,
+  ...props
 }) {
   const [phase, setPhase] = useState("notStarted");
   // const [error, setError] = useState(null);
@@ -16,8 +15,7 @@ export default function BlockchainInteractionButton({
     case "notStarted":
       return (
         <button
-          className={className}
-          style={style}
+          {...props}
           onClick={async () => {
             try {
               if (!(await shouldStartOnClick())) {
@@ -47,22 +45,10 @@ export default function BlockchainInteractionButton({
         </button>
       );
     case "waitingConfirmation":
-      return (
-        <button className={className} style={style}>
-          waiting
-        </button>
-      );
+      return <button {...props}>waiting</button>;
     case "mining":
-      return (
-        <button className={className} style={style}>
-          mining
-        </button>
-      );
+      return <button {...props}>mining</button>;
     case "confirmed":
-      return (
-        <button className={className} style={style}>
-          confirmed
-        </button>
-      );
+      return <button {...props}>confirmed</button>;
   }
 }
