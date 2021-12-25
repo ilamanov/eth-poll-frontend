@@ -83,16 +83,9 @@ export function editPoll(avatarUrl, title, about) {
 }
 
 export function submitProposal(pollOwnerAddress, proposalTitle) {
-  return getContract("private")
-    .propose(pollOwnerAddress, proposalTitle, {
-      value: ethers.utils.parseEther(PROPOSE_COST.toString()),
-    })
-    .then((proposalTxn) => {
-      return proposalTxn.wait(); // wait until mined
-    })
-    .then((receipt) => {
-      return receipt.transactionHash;
-    });
+  return getContract("private").propose(pollOwnerAddress, proposalTitle, {
+    value: ethers.utils.parseEther(PROPOSE_COST.toString()),
+  });
 }
 
 export function upvote(pollOwnerAddress, proposalIndex) {
