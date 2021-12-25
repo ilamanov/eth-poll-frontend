@@ -33,6 +33,7 @@ export default function Propose({ pollOwnerAddress, onProposalSubmitted }) {
       <CostBadge amount={PROPOSE_COST} network="ethereum">
         <BlockchainInteractionButton
           className={"button is-green"}
+          wallet="metamask"
           shouldStartOnClick={validate}
           startTransactionOnClick={() =>
             submitProposal(pollOwnerAddress, proposal)

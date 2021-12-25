@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "../styles/components/blockchain_interaction_button.module.scss";
 
 export default function BlockchainInteractionButton({
+  wallet,
   shouldStartOnClick,
   startTransactionOnClick,
   onTransactionConfirmed,
@@ -45,10 +46,23 @@ export default function BlockchainInteractionButton({
         </button>
       );
     case "waitingConfirmation":
-      return <button {...props}>waiting</button>;
+      return (
+        <button
+          {...props}
+          className={
+            props.className +
+            " " +
+            styles.waitingConfirmation +
+            " " +
+            styles[wallet]
+          }
+        >
+          {children}
+        </button>
+      );
     case "mining":
-      return <button {...props}>mining</button>;
+      return <button {...props}>{children}</button>;
     case "confirmed":
-      return <button {...props}>confirmed</button>;
+      return <button {...props}>{children}</button>;
   }
 }

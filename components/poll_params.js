@@ -122,6 +122,7 @@ export default function PollParams({
               <BlockchainInteractionButton
                 type="submit"
                 className="button is-green"
+                wallet="metamask"
                 shouldStartOnClick={validate}
                 startTransactionOnClick={() =>
                   startSubmit(avatarUrl, title, about)

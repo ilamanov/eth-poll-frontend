@@ -1,0 +1,37 @@
+@keyframes breathe {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.waitingConfirmation {
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.waitingConfirmation:after {
+  position: absolute !important;
+  left: calc(50% - (1.5em * 0.5));
+  top: calc(50% - (1.5em * 0.5));
+  content: "";
+  height: 1.5em;
+  width: 1.5em;
+  background-size: 1.5em 1.5em;
+  -webkit-animation: breathe 750ms infinite alternate ease-in-out;
+  animation: breathe 750ms infinite alternate ease-in-out;
+}
+
+.waitingConfirmation.metamask:after {
+  background-image: url("/metamask.png");
+}
+
+.waitingConfirmation.coinbase:after {
+  background-image: url("/coinbase.png");
+}
+
+.waitingConfirmation.phantom:after {
+  background-image: url("/phantom.png");
+}

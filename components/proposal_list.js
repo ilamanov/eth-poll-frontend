@@ -97,6 +97,7 @@ function Arrow({
       className={`button ${styles.arrowButton} ${
         isHighlighted ? styles.highlighted : ""
       }`}
+      wallet="metamask"
       shouldStartOnClick={() => true}
       startTransactionOnClick={startTransactionOnClick}
       onTransactionConfirmed={onTransactionConfirmed}
