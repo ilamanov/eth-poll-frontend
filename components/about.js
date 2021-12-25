@@ -53,20 +53,9 @@ export default function About({
         <Modal isActive={isPollParamsOpen} setIsActive={setIsPollParamsOpen}>
           <PollParams
             pollOwnerAddress={editable.pollOwnerAddress}
-            onSubmit={(avatarUrl, title, about) => {
-              editPoll(avatarUrl, title, about)
-                .then((txnHash) => {
-                  editable.onPollEdited();
-                })
-                .catch((error) => {
-                  if (error.code === 4001) {
-                    alert("Transaction was denied in MetaMask");
-                  } else {
-                    alert(error.message);
-                  }
-                });
-            }}
             submitText="Edit Poll"
+            startSubmit={editPoll}
+            onSubmitted={editable.onPollEdited}
             initialValues={{ avatarUrl: avatarUrl, title: title, about: about }}
           />
         </Modal>

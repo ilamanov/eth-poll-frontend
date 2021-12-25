@@ -4,11 +4,13 @@ import Identity, { IdentityView } from "../components/identity";
 import About from "../components/about";
 import { areAddressesTheSame } from "../utils/contract";
 import CostBadge from "./ui/cost_badge";
+import BlockchainInteractionButton from "./blockchain_interaction_button";
 
 export default function PollParams({
   pollOwnerAddress,
-  onSubmit,
   submitText,
+  startSubmit,
+  onSubmitted,
   initialValues,
 }) {
   const [userAddress, setUserAddress] = useState("");
@@ -25,14 +27,12 @@ export default function PollParams({
   const [titleError, setTitleError] = useState(false);
   const [aboutError, setAboutError] = useState(false);
 
-  const [isMining, setMining] = useState(false);
-
   const doesOwnPoll =
     userAddress &&
     pollOwnerAddress &&
     areAddressesTheSame(userAddress, pollOwnerAddress);
 
-  function submit() {
+  const validate = () => {
     let error = false;
     if (avatarUrl === "") {
       setAvatarError(true);
@@ -46,13 +46,8 @@ export default function PollParams({
       setAboutError(true);
       error = true;
     }
-    if (error) {
-      return;
-    }
-
-    setMining(true);
-    onSubmit(avatarUrl, title, about);
-  }
+    return !error;
+  };
 
   return (
     <div className={styles.container}>
@@ -124,15 +119,18 @@ export default function PollParams({
           <div style={{ marginTop: "1.5em" }} />
           <div>
             <CostBadge network="ethereum">
-              <button
+              <BlockchainInteractionButton
                 type="submit"
-                className={"button is-green" + (isMining ? " is-loading" : "")}
-                onClick={submit}
+                className="button is-green"
+                shouldStartOnClick={validate}
+                startTransactionOnClick={() =>
+                  startSubmit(avatarUrl, title, about)
+                }
+                onTransactionConfirmed={onSubmitted}
               >
                 {submitText}
-              </button>
+              </BlockchainInteractionButton>
             </CostBadge>
-            {isMining && <span className={styles.isMining}>Mining...</span>}
           </div>
         </>
       ) : userAddress !== "" ? (

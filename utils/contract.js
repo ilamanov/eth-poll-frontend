@@ -61,25 +61,11 @@ export async function getPollData(pollOwnerAddress) {
 }
 
 export function createPoll(avatarUrl, title, about) {
-  return getContract("private")
-    .createPoll(avatarUrl, title, about)
-    .then((pollTxn) => {
-      return pollTxn.wait(); // wait until mined
-    })
-    .then((receipt) => {
-      return receipt.transactionHash;
-    });
+  return getContract("private").createPoll(avatarUrl, title, about);
 }
 
 export function editPoll(avatarUrl, title, about) {
-  return getContract("private")
-    .editPoll(avatarUrl, title, about)
-    .then((pollTxn) => {
-      return pollTxn.wait(); // wait until mined
-    })
-    .then((receipt) => {
-      return receipt.transactionHash;
-    });
+  return getContract("private").editPoll(avatarUrl, title, about);
 }
 
 export function submitProposal(pollOwnerAddress, proposalTitle) {

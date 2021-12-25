@@ -31,20 +31,9 @@ export default function PollNotActive({ pollOwnerAddress, onPollCreated }) {
       <Modal isActive={isPollParamsOpen} onActiveChanged={setIsPollParamsOpen}>
         <PollParams
           pollOwnerAddress={pollOwnerAddress}
-          onSubmit={(avatarUrl, title, about) => {
-            createPoll(avatarUrl, title, about)
-              .then((txnHash) => {
-                onPollCreated();
-              })
-              .catch((error) => {
-                if (error.code === 4001) {
-                  alert("Transaction was denied in MetaMask");
-                } else {
-                  alert(error.message);
-                }
-              });
-          }}
           submitText="Submit Poll"
+          startSubmit={createPoll}
+          onSubmitted={onPollCreated}
         />
       </Modal>
     </div>
