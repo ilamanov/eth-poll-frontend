@@ -75,29 +75,15 @@ export function submitProposal(pollOwnerAddress, proposalTitle) {
 }
 
 export function upvote(pollOwnerAddress, proposalIndex) {
-  return getContract("private")
-    .upvote(pollOwnerAddress, proposalIndex, {
-      value: ethers.utils.parseEther(UPVOTE_COST.toString()),
-    })
-    .then((txn) => {
-      return txn.wait(); // wait until mined
-    })
-    .then((receipt) => {
-      return receipt.transactionHash;
-    });
+  return getContract("private").upvote(pollOwnerAddress, proposalIndex, {
+    value: ethers.utils.parseEther(UPVOTE_COST.toString()),
+  });
 }
 
 export function downvote(pollOwnerAddress, proposalIndex) {
-  return getContract("private")
-    .downvote(pollOwnerAddress, proposalIndex, {
-      value: ethers.utils.parseEther(DOWNVOTE_COST.toString()),
-    })
-    .then((txn) => {
-      return txn.wait(); // wait until mined
-    })
-    .then((receipt) => {
-      return receipt.transactionHash;
-    });
+  return getContract("private").downvote(pollOwnerAddress, proposalIndex, {
+    value: ethers.utils.parseEther(DOWNVOTE_COST.toString()),
+  });
 }
 
 export function areAddressesTheSame(addr1, addr2) {

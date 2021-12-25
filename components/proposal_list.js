@@ -8,6 +8,7 @@ import {
   upvote,
   UPVOTE_COST,
 } from "../utils/contract";
+import BlockchainInteractionButton from "./blockchain_interaction_button";
 import { IdentityView } from "./identity";
 import CostBadge from "./ui/cost_badge";
 
@@ -48,19 +49,8 @@ function Proposal({
             userAddress && doesIncludeAddress(proposal.upvotes, userAddress)
           }
           cost={idx === 0 ? UPVOTE_COST : null}
-          onClick={() =>
-            upvote(pollOwnerAddress, idx)
-              .then((txnHash) => {
-                onUpvoted();
-              })
-              .catch((error) => {
-                if (error.code === 4001) {
-                  alert("Transaction was denied in MetaMask");
-                } else {
-                  alert(error.message);
-                }
-              })
-          }
+          startTransactionOnClick={() => upvote(pollOwnerAddress, idx)}
+          onTransactionConfirmed={onUpvoted}
         />
         <div className={styles.score}>
           {proposal.upvotes.length - proposal.downvotes.length}
@@ -71,19 +61,8 @@ function Proposal({
             userAddress && doesIncludeAddress(proposal.downvotes, userAddress)
           }
           cost={idx === 0 ? DOWNVOTE_COST : null}
-          onClick={() =>
-            downvote(pollOwnerAddress, idx)
-              .then((txnHash) => {
-                onDownvoted();
-              })
-              .catch((error) => {
-                if (error.code === 4001) {
-                  alert("Transaction was denied in MetaMask");
-                } else {
-                  alert(error.message);
-                }
-              })
-          }
+          startTransactionOnClick={() => downvote(pollOwnerAddress, idx)}
+          onTransactionConfirmed={onDownvoted}
         />
       </div>
       <div className={styles.info}>
@@ -104,21 +83,26 @@ function Proposal({
   );
 }
 
-function Arrow({ direction, isHighlighted, cost, onClick }) {
+function Arrow({
+  direction,
+  isHighlighted,
+  cost,
+  startTransactionOnClick,
+  onTransactionConfirmed,
+}) {
   const [isMining, setIsMining] = useState(false);
 
   let button = (
-    <button
+    <BlockchainInteractionButton
       className={`button ${styles.arrowButton} ${
-        isMining ? "is-loading" : ""
-      } ${isHighlighted ? styles.highlighted : ""}`}
-      onClick={() => {
-        setIsMining(true);
-        onClick();
-      }}
+        isHighlighted ? styles.highlighted : ""
+      }`}
+      shouldStartOnClick={() => true}
+      startTransactionOnClick={startTransactionOnClick}
+      onTransactionConfirmed={onTransactionConfirmed}
     >
       {direction === "up" ? "▲" : "▼"}
-    </button>
+    </BlockchainInteractionButton>
   );
 
   if (cost) {
