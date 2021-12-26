@@ -21,6 +21,12 @@ export default function Poll({ pollData }) {
     pollData.ownerAddress &&
     areAddressesTheSame(userAddress, pollData.ownerAddress);
 
+  const cycleCutoff =
+    pollData.cycleCutoffs.length > 0
+      ? pollData.cycleCutoffs[pollData.cycleCutoffs.length - 1]
+      : 0;
+  const doesCycleHaveProposals = pollData.proposals.length > cycleCutoff;
+
   function reload() {
     router.reload(window.location.pathname);
   }
@@ -57,6 +63,10 @@ export default function Poll({ pollData }) {
                 value: doesOwnPoll,
                 pollOwnerAddress: pollData.ownerAddress,
                 onPollEdited: reload,
+              }}
+              endable={{
+                value: doesOwnPoll && doesCycleHaveProposals,
+                onEnded: reload,
               }}
             />
             <Propose

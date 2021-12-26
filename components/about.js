@@ -4,7 +4,9 @@ import styles from "../styles/components/about.module.css";
 import Modal from "./ui/modal";
 import { IdentityView } from "./identity";
 import PollParams from "./poll_params";
-import { editPoll } from "../utils/contract";
+import { editPoll, endCycle } from "../utils/contract";
+import CostBadge from "./ui/cost_badge";
+import BlockchainInteractionButton from "./blockchain_interaction_button";
 
 export default function About({
   avatarUrl,
@@ -13,9 +15,13 @@ export default function About({
   address,
   isAddressMine,
   editable,
+  endable,
 }) {
   if (!editable) {
     editable = {};
+  }
+  if (!endable) {
+    endable = {};
   }
   const [isPollParamsOpen, setIsPollParamsOpen] = useState(false);
 
@@ -49,6 +55,21 @@ export default function About({
       </div>
       <div className={styles.title}>{title}</div>
       <div className={styles.about}>{about}</div>
+      {endable.value && (
+        <div className={styles.endCycleButton}>
+          <CostBadge network="ethereum">
+            <BlockchainInteractionButton
+              className="button is-green"
+              wallet="metamask"
+              shouldStartOnClick={() => true}
+              startTransactionOnClick={endCycle}
+              onTransactionConfirmed={endable.onEnded}
+            >
+              End Cycle
+            </BlockchainInteractionButton>
+          </CostBadge>
+        </div>
+      )}
       {editable.value && (
         <Modal isActive={isPollParamsOpen} setIsActive={setIsPollParamsOpen}>
           <PollParams

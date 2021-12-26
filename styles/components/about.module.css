@@ -37,3 +37,8 @@
 .editButton:hover {
   cursor: pointer;
 }
+
+.endCycleButton {
+  width: fit-content;
+  margin: 1em auto 0 auto;
+}

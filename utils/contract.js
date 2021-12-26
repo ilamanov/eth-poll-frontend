@@ -57,6 +57,16 @@ export async function getPollData(pollOwnerAddress) {
     }
   }
 
+  pollExtended.cycleCutoffs = [];
+  if (poll.isActive) {
+    const count = await ethPollContract.getCycleCount(pollOwnerAddress);
+    for (let i = 0; i < count; i++) {
+      pollExtended.cycleCutoffs.push(
+        await ethPollContract.getCycleCutoff(pollOwnerAddress, i)
+      );
+    }
+  }
+
   return pollExtended;
 }
 
@@ -84,6 +94,10 @@ export function downvote(pollOwnerAddress, proposalIndex) {
   return getContract("private").downvote(pollOwnerAddress, proposalIndex, {
     value: ethers.utils.parseEther(DOWNVOTE_COST.toString()),
   });
+}
+
+export function endCycle() {
+  return getContract("private").endCycle();
 }
 
 export function areAddressesTheSame(addr1, addr2) {
