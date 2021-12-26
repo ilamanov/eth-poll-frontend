@@ -62,7 +62,7 @@ export async function getPollData(pollOwnerAddress) {
     const count = await ethPollContract.getCycleCount(pollOwnerAddress);
     for (let i = 0; i < count; i++) {
       pollExtended.cycleCutoffs.push(
-        await ethPollContract.getCycleCutoff(pollOwnerAddress, i)
+        (await ethPollContract.getCycleCutoff(pollOwnerAddress, i)).toNumber()
       );
     }
   }
