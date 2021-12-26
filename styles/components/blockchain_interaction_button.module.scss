@@ -7,19 +7,29 @@
   }
 }
 
-.waitingConfirmation {
+@keyframes build {
+  0% {
+    width: 0px;
+  }
+  100% {
+    width: 54px;
+  }
+}
+
+.waitingConfirmation,
+.mining {
   color: transparent !important;
   pointer-events: none;
 }
 
 .waitingConfirmation:after {
   position: absolute !important;
-  left: calc(50% - (1.5em * 0.5));
-  top: calc(50% - (1.5em * 0.5));
+  left: calc(50% - (18px * 0.5));
+  top: calc(50% - (18px * 0.5));
   content: "";
-  height: 1.5em;
-  width: 1.5em;
-  background-size: 1.5em 1.5em;
+  height: 18px;
+  width: 18px;
+  background-size: 18px 18px;
   -webkit-animation: breathe 750ms infinite alternate ease-in-out;
   animation: breathe 750ms infinite alternate ease-in-out;
 }
@@ -34,4 +44,17 @@
 
 .waitingConfirmation.phantom:after {
   background-image: url("/phantom.png");
+}
+
+.mining:after {
+  position: absolute !important;
+  left: calc(50% - (54px * 0.5));
+  top: calc(50% - (18px * 0.5));
+  content: "";
+  height: 18px;
+  background-image: url("/blockchain.png");
+  background-size: 55px 18px;
+  opacity: 0.7;
+  -webkit-animation: build 1500ms infinite steps(5, start);
+  animation: build 1500ms infinite steps(5, start);
 }
