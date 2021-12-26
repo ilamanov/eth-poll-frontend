@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import contractABI from "../utils/eth_poll_contract_abi.json";
 
-const CONTRACT_ADDRESS = "0x52c5724b2E3514cCc84cB7c977701A31e1d7C973";
+const CONTRACT_ADDRESS = "0xCa527ca6cc73974DF5D3222694Ab1cA1ED51815c";
 const CONTRACT_ABI = contractABI.abi;
 const NETWORK = "goerli";
 export const PROPOSE_COST = 0.0025;
