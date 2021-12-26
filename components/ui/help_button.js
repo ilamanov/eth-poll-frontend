@@ -12,6 +12,7 @@ export default function HelpButton() {
     <>
       <button
         data-aos="fade-up"
+        data-aos-offset="0"
         data-aos-delay="300"
         className={styles.helpButton}
         onClick={(e) => setIsModalOpen(!isModalOpen)}
