@@ -67,6 +67,10 @@ export default function BlockchainInteractionButton({
         </button>
       );
     case "confirmed":
-      return <button {...props}>{children}</button>;
+      return (
+        <button {...props} className={props.className + " " + styles.confirmed}>
+          {children}
+        </button>
+      );
   }
 }

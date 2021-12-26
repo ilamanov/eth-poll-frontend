@@ -17,7 +17,8 @@
 }
 
 .waitingConfirmation,
-.mining {
+.mining,
+.confirmed {
   color: transparent !important;
   pointer-events: none;
 }
@@ -57,4 +58,17 @@
   opacity: 0.7;
   -webkit-animation: build 1500ms infinite steps(5, start);
   animation: build 1500ms infinite steps(5, start);
+}
+
+.confirmed:after {
+  position: absolute !important;
+  left: calc(50% - (18px * 0.5));
+  top: calc(50% - (18px * 0.5));
+  content: "";
+  height: 18px;
+  width: 18px;
+  background-image: url("/confirmed.png");
+  background-size: 18px 18px;
+  -webkit-animation: breathe 1500ms ease-in-out;
+  animation: breathe 1500ms ease-in-out;
 }
