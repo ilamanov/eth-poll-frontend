@@ -77,7 +77,8 @@ export default function Poll({ pollData }) {
 
           <main className={styles.main}>
             <ProposalList
-              proposals={pollData.proposals}
+              proposals={pollData.proposals.reverse()}
+              newProposalsCutoffIndex={pollData.proposals.length - cycleCutoff}
               userAddress={userAddress}
               pollOwnerAddress={pollData.ownerAddress}
               onUpvoted={reload}

@@ -14,22 +14,30 @@ import CostBadge from "./ui/cost_badge";
 
 export default function ProposalList({
   proposals,
+  newProposalsCutoffIndex,
   userAddress,
   pollOwnerAddress,
   onUpvoted,
   onDownvoted,
 }) {
-  return proposals.map((proposal, i) => (
-    <Proposal
-      key={i}
-      proposal={proposal}
-      userAddress={userAddress}
-      pollOwnerAddress={pollOwnerAddress}
-      idx={i}
-      onUpvoted={onUpvoted}
-      onDownvoted={onDownvoted}
-    />
-  ));
+  const elements = [];
+  for (let i = 0; i < proposals.length; i++) {
+    if (i === newProposalsCutoffIndex) {
+      elements.push(<Separator key={i} />);
+    }
+    elements.push(
+      <Proposal
+        key={i >= newProposalsCutoffIndex ? i + 1 : i}
+        proposal={proposals[i]}
+        userAddress={userAddress}
+        pollOwnerAddress={pollOwnerAddress}
+        idx={i}
+        onUpvoted={onUpvoted}
+        onDownvoted={onDownvoted}
+      />
+    );
+  }
+  return elements;
 }
 
 function Proposal({
@@ -119,5 +127,11 @@ function Arrow({
       {button}
       {isMining && <span className={styles.isMiningText}>Mining...</span>}
     </div>
+  );
+}
+
+function Separator() {
+  return (
+    <div className={styles.separator}>--------- Older Proposals ---------</div>
   );
 }
