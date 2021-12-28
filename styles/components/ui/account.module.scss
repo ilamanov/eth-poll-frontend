@@ -1,0 +1,29 @@
+@import "../../global_variables.scss";
+
+.account {
+  margin: 0 3px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+  color: black;
+}
+.account:hover {
+  cursor: pointer;
+}
+
+.isAccountMine {
+  color: white;
+  border: none;
+}
+
+.metamask {
+  background: -webkit-linear-gradient(left, $metamask, $metamask-dark);
+}
+
+.coinbase {
+  background: -webkit-linear-gradient(left, $coinbase-light, $coinbase-dark);
+}
+
+.phantom {
+  background: -webkit-linear-gradient(left, $phantom-light, $phantom-dark);
+}
