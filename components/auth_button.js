@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import styles from "../../styles/components/ui/auth_button.module.scss";
+import styles from "../styles/components/auth_button.module.scss";
 
 function isWalletInstalled(blockchain, wallet) {
   if (
