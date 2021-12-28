@@ -18,7 +18,12 @@ function getAccountTextRepresentation(account, blockchain, isExpanded) {
   }
 }
 
-export function Account({ account, isAccountMine, blockchain, wallet }) {
+export default function Account({
+  account,
+  isAccountMine,
+  blockchain,
+  wallet,
+}) {
   const [isExpanded, setIsExpanded] = useState("");
 
   return (
