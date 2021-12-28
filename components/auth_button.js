@@ -128,7 +128,7 @@ export default function AuthButton({
 
   useEffect(() => {
     if (onAccountChanged) {
-      // onAccountChanged(account);
+      onAccountChanged(account);
     }
   }, [account]);
 
