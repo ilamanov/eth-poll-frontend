@@ -33,7 +33,7 @@ export default function Account({
         " " +
         (isAccountMine ? styles.isAccountMine : "") +
         " " +
-        styles[wallet]
+        (isAccountMine ? styles[wallet] : "")
       }
       onClick={() => setIsExpanded(!isExpanded)}
     >
