@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/components/poll_params.module.css";
-import Identity, { IdentityView } from "../components/identity";
+import Account from "./ui/account";
+import AuthButton from "./auth_button";
 import About from "../components/about";
 import { areAddressesTheSame } from "../utils/contract";
 import CostBadge from "./ui/cost_badge";
@@ -51,7 +52,24 @@ export default function PollParams({
 
   return (
     <div className={styles.container}>
-      <Identity onIdentityChanged={(address) => setUserAddress(address)} />
+      {userAddress === "" ? (
+        <AuthButton
+          blockchain="ethereum"
+          wallet="metamask"
+          onAccountChanged={(address) => setUserAddress(address)}
+          urlToOpenOnMobile="metamask-auth.ilamanov.repl.co"
+        />
+      ) : (
+        <div>
+          Connected with
+          <Account
+            account={userAddress}
+            isAccountMine={true}
+            blockchain="ethereum"
+            wallet="metamask"
+          />
+        </div>
+      )}
       {doesOwnPoll ? (
         <>
           <div style={{ marginTop: "2.5em" }} />
@@ -137,9 +155,11 @@ export default function PollParams({
       ) : userAddress !== "" ? (
         <div className={styles.helperText}>
           You need to connect with the address{" "}
-          <IdentityView
-            address={pollOwnerAddress}
-            isAddressMine={doesOwnPoll}
+          <Account
+            account={pollOwnerAddress}
+            isAccountMine={doesOwnPoll}
+            blockchain="ethereum"
+            wallet="metamask"
           />{" "}
           to create a poll on this page
         </div>

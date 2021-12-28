@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "../styles/components/poll_not_active.module.css";
 import Modal from "./ui/modal";
 import CostBadge from "./ui/cost_badge";
-import { IdentityView } from "../components/identity";
+import Account from "./ui/account";
 import PollParams from "./poll_params";
 import { createPoll } from "../utils/contract";
 
@@ -13,7 +13,12 @@ export default function PollNotActive({ pollOwnerAddress, onPollCreated }) {
     <div>
       <div className={styles.text}>
         There is no poll at the provided address{" "}
-        <IdentityView address={pollOwnerAddress} isAddressMine={false} />
+        <Account
+          account={pollOwnerAddress}
+          isAccountMine={false}
+          blockchain="ethereum"
+          wallet="metamask"
+        />
       </div>
       <div className={styles.text}>
         If you own this address, you can create your poll.

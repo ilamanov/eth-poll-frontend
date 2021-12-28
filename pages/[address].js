@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import styles from "../styles/Poll.module.scss";
 import { getPollData, areAddressesTheSame } from "../utils/contract";
-import Identity from "../components/identity";
+import AuthButton from "../components/auth_button";
+import Account from "../components/ui/account";
 import About from "../components/about";
 import Propose from "../components/propose";
 import TwitterFooter from "../components/ui/twitter_footer";
@@ -15,6 +16,8 @@ import HelpButton from "../components/ui/help_button";
 export default function Poll({ pollData }) {
   const router = useRouter();
   const [userAddress, setUserAddress] = useState("");
+
+  console.log("usr", userAddress);
 
   const doesOwnPoll =
     userAddress &&
@@ -49,9 +52,24 @@ export default function Poll({ pollData }) {
                 </div>
                 <div className={styles.depoll}>DePoll</div>
               </div>
-              <Identity
-                onIdentityChanged={(address) => setUserAddress(address)}
-              />
+              {userAddress === "" ? (
+                <AuthButton
+                  blockchain="ethereum"
+                  wallet="metamask"
+                  onAccountChanged={(address) => setUserAddress(address)}
+                  urlToOpenOnMobile="metamask-auth.ilamanov.repl.co"
+                />
+              ) : (
+                <div>
+                  Connected with
+                  <Account
+                    account={userAddress}
+                    isAccountMine={true}
+                    blockchain="ethereum"
+                    wallet="metamask"
+                  />
+                </div>
+              )}
             </div>
             <About
               avatarUrl={pollData.avatarUrl}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import styles from "../styles/components/about.module.css";
 import Modal from "./ui/modal";
-import { IdentityView } from "./identity";
+import Account from "./ui/account";
 import PollParams from "./poll_params";
 import { editPoll, endCycle } from "../utils/contract";
 import CostBadge from "./ui/cost_badge";
@@ -51,7 +51,12 @@ export default function About({
         )}
       </div>
       <div className={styles.addressContainer}>
-        <IdentityView address={address} isAddressMine={isAddressMine} />
+        <Account
+          account={address}
+          isAccountMine={isAddressMine}
+          blockchain="ethereum"
+          wallet="metamask"
+        />
       </div>
       <div className={styles.title}>{title}</div>
       <div className={styles.about}>{about}</div>

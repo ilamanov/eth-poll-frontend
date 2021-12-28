@@ -9,7 +9,7 @@ import {
   UPVOTE_COST,
 } from "../utils/contract";
 import BlockchainInteractionButton from "./blockchain_interaction_button";
-import { IdentityView } from "./identity";
+import Account from "./ui/account";
 import CostBadge from "./ui/cost_badge";
 
 export default function ProposalList({
@@ -77,13 +77,15 @@ function Proposal({
         <div className={styles.title}>{proposal.title}</div>
         <div className={styles.createdBy}>
           Created by{" "}
-          <IdentityView
-            address={proposal.createdBy}
-            isAddressMine={
+          <Account
+            account={proposal.createdBy}
+            isAccountMine={
               userAddress &&
               proposal.createdBy &&
               areAddressesTheSame(userAddress, proposal.createdBy)
             }
+            blockchain="ethereum"
+            wallet="metamask"
           />
         </div>
       </div>
